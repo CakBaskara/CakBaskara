@@ -47,7 +47,7 @@ The portrait is **not** refreshed by the daily workflow, so rerun it by hand
 whenever you change the photo. The command currently in use:
 
 ```bash
-python scripts/make_ascii_svg.py --photo foto.png --crop "190,385,655,570" --nobg --gamma 1.4
+python scripts/make_ascii_svg.py --photo foto.png --crop "235,385,560,750" --nobg --gamma 1.4
 ```
 
 The source photo is deliberately kept out of the repo (see `.gitignore`) — only
