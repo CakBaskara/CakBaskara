@@ -1,7 +1,7 @@
-"""Bangun ulang semua aset SVG sekaligus.
+"""Rebuild every SVG asset in one go.
 
-  python build.py                 # pakai username dari config.json
-  python build.py --photo me.jpg  # sekalian regenerate potret dari foto
+  python build.py                   # uses the username from config.json
+  python build.py --photo me.jpg    # also regenerate the portrait from a photo
 """
 import argparse
 import subprocess
@@ -15,7 +15,7 @@ def run(script, *extra):
     cmd = [sys.executable, str(ROOT / "scripts" / script), *extra]
     print("$", " ".join(cmd[1:]))
     if subprocess.call(cmd) != 0:
-        sys.exit("[x] gagal di %s" % script)
+        sys.exit("[x] failed at %s" % script)
 
 
 def main():
@@ -30,7 +30,7 @@ def main():
     run("make_info_card.py")
     if not args.skip_portrait:
         run("make_ascii_svg.py", *(["--photo", args.photo] if args.photo else []), *rest)
-    print("\n[selesai] cek folder assets/")
+    print("\n[done] see the assets/ folder")
 
 
 if __name__ == "__main__":

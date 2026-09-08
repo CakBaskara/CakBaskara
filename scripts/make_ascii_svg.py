@@ -1,10 +1,11 @@
-"""Ubah foto jadi potret ASCII dalam SVG, dengan efek ketik baris per baris.
+"""Turn a photo into an ASCII portrait SVG that types itself in, row by row.
 
-  python scripts/make_ascii_svg.py --photo me.jpg
-  python scripts/make_ascii_svg.py            # tanpa foto -> pola placeholder
+  python scripts/make_ascii_svg.py --photo photo.png --preview
+  python scripts/make_ascii_svg.py --photo photo.png --crop "120,140,660,900"
 
-Tips: makin kontras fotonya, makin kebaca hasilnya. Pakai --invert kalau
-latar fotonya gelap, dan --gamma untuk mengatur terang/gelap.
+ASCII art only has brightness to work with, so a busy background competes with
+the face. Two ways out: crop tighter, or fade the background with --vignette
+(or cut it out properly with --nobg, which needs rembg installed).
 """
 import argparse
 import hashlib
@@ -20,8 +21,8 @@ STATIC = os.environ.get("STATIC") == "1"
 
 WIDTH, HEIGHT = 300, 420
 PAD = 10
-FS = 5.0                 # ukuran font
-CHAR_W = FS * 0.6        # lebar karakter monospace
+FS = 5.0                 # font size
+CHAR_W = FS * 0.6        # monospace character width
 LINE_H = FS * 1.0
 RAMP = " .`:-=+*cs#%@"
 
@@ -31,12 +32,12 @@ def esc(s):
 
 
 def placeholder(seed, size=420):
-    """Identicon lembut sebagai pengganti foto, deterministik dari seed."""
+    """Soft identicon standing in for a photo, deterministic from the seed."""
     h = hashlib.sha256(seed.encode("utf-8")).digest()
     img = Image.new("L", (size, size), 245)
     d = ImageDraw.Draw(img)
-    d.ellipse((size * .28, size * .12, size * .72, size * .56), fill=70)   # kepala
-    d.ellipse((size * .12, size * .55, size * .88, size * 1.25), fill=110)  # bahu
+    d.ellipse((size * .28, size * .12, size * .72, size * .56), fill=70)    # head
+    d.ellipse((size * .12, size * .55, size * .88, size * 1.25), fill=110)  # shoulders
     cells = 7
     step = size // cells
     for gy in range(cells):
@@ -49,14 +50,42 @@ def placeholder(seed, size=420):
     return img
 
 
-def to_rows(img, cols, gamma, invert, max_rows):
+def strip_background(img):
+    """Cut the subject out with rembg, if it is installed."""
+    try:
+        from rembg import remove
+    except ImportError:
+        raise SystemExit(
+            "[x] --nobg needs rembg: pip install rembg\n"
+            "    (or use --vignette / a tighter --crop instead)"
+        )
+    out = remove(img.convert("RGBA"))
+    flat = Image.new("RGBA", out.size, (255, 255, 255, 255))
+    return Image.alpha_composite(flat, out).convert("RGB")
+
+
+def vignette(gray, strength):
+    """Fade toward white outside a centred ellipse, so the background drops out."""
+    a = np.asarray(gray, dtype=np.float32) / 255.0
+    h, w = a.shape
+    yy, xx = np.mgrid[0:h, 0:w]
+    # normalised distance from centre; 1.0 sits on the inscribed ellipse
+    r = np.sqrt(((xx - w / 2) / (w / 2)) ** 2 + ((yy - h / 2) / (h / 2)) ** 2)
+    fade = np.clip((r - 0.62) / 0.38, 0, 1) * strength     # soft edge, not a hard cut
+    a = a + (1.0 - a) * fade
+    return Image.fromarray((np.clip(a, 0, 1) * 255).astype(np.uint8), "L")
+
+
+def to_rows(img, cols, gamma, invert, max_rows, vig):
     img = ImageOps.grayscale(img)
     img = ImageOps.autocontrast(img, cutoff=2)
+    if vig > 0:
+        img = vignette(img, vig)
     w, h = img.size
 
     ratio = (h / w) * (CHAR_W / LINE_H)
     rows = max(1, int(round(cols * ratio)))
-    if rows > max_rows:                  # terlalu tinggi -> kecilkan lebarnya
+    if rows > max_rows:                  # too tall, so narrow it instead
         cols = max(8, int(max_rows / ratio))
         rows = max(1, int(round(cols * ratio)))
     img = img.resize((cols, rows), Image.LANCZOS)
@@ -64,7 +93,7 @@ def to_rows(img, cols, gamma, invert, max_rows):
     a = np.asarray(img, dtype=np.float32) / 255.0
     a = np.clip(a, 0, 1) ** gamma
     if not invert:
-        a = 1.0 - a                      # gelap = karakter padat
+        a = 1.0 - a                      # dark pixels become dense characters
     idx = np.clip((a * (len(RAMP) - 1)).round().astype(int), 0, len(RAMP) - 1)
     return ["".join(RAMP[i] for i in row) for row in idx]
 
@@ -74,30 +103,37 @@ def main():
     t = cfg["theme"]
 
     ap = argparse.ArgumentParser()
-    ap.add_argument("--photo", help="path foto (jpg/png)")
-    ap.add_argument("--gamma", type=float, default=1.0)
-    ap.add_argument("--invert", action="store_true", help="untuk foto berlatar gelap")
+    ap.add_argument("--photo", help="path to a jpg/png")
+    ap.add_argument("--gamma", type=float, default=1.0,
+                    help="<1 cleans the background, >1 strengthens the face")
+    ap.add_argument("--invert", action="store_true", help="for dark backgrounds")
     ap.add_argument("--cols", type=int, default=int((WIDTH - 2 * PAD) / CHAR_W))
-    ap.add_argument("--crop", help="potong foto: x,y,w,h dalam piksel")
-    ap.add_argument("--preview", action="store_true", help="cetak ASCII ke terminal")
+    ap.add_argument("--crop", help="crop the photo: x,y,w,h in pixels")
+    ap.add_argument("--vignette", type=float, default=0.0, metavar="N",
+                    help="0-1, fade the background outside a centred oval")
+    ap.add_argument("--nobg", action="store_true", help="remove the background (needs rembg)")
+    ap.add_argument("--preview", action="store_true", help="print the ASCII to the terminal")
     args = ap.parse_args()
 
     if args.photo:
         img = Image.open(args.photo)
-        if img.mode == "RGBA":                      # ratakan transparansi ke putih
+        if img.mode == "RGBA":                      # flatten transparency onto white
             bg = Image.new("RGBA", img.size, (255, 255, 255, 255))
             img = Image.alpha_composite(bg, img)
     else:
-        print("[i] tanpa --photo, memakai placeholder")
+        print("[i] no --photo given, using a placeholder")
         img = placeholder(cfg["username"] or "anon")
 
     if args.crop:
         x, y, w, h = (int(v) for v in args.crop.split(","))
         img = img.crop((x, y, x + w, y + h))
 
+    if args.nobg:
+        img = strip_background(img)
+
     top_margin = 34
     max_rows = int((HEIGHT - top_margin - PAD) / LINE_H)
-    rows = to_rows(img, args.cols, args.gamma, args.invert, max_rows)
+    rows = to_rows(img, args.cols, args.gamma, args.invert, max_rows, args.vignette)
     ncols = len(rows[0])
 
     if args.preview:
@@ -106,7 +142,7 @@ def main():
     art_h = len(rows) * LINE_H
     top = max(top_margin, (HEIGHT - art_h) / 2 + LINE_H)
     row_w = ncols * CHAR_W
-    left = (WIDTH - row_w) / 2          # ditengahkan mendatar
+    left = (WIDTH - row_w) / 2          # centred horizontally
 
     defs, texts = [], []
     for n, line in enumerate(rows):
@@ -149,7 +185,7 @@ def main():
 
     out = ROOT / "assets" / "portrait-ascii.svg"
     out.write_text(svg, encoding="utf-8")
-    print("[ok] %s (%d kolom x %d baris)" % (out, ncols, len(rows)))
+    print("[ok] %s (%d cols x %d rows)" % (out, ncols, len(rows)))
 
 
 if __name__ == "__main__":

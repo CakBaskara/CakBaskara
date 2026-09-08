@@ -1,4 +1,4 @@
-"""Ambil kalender kontribusi publik dari GitHub tanpa token.
+"""Scrape the public GitHub contribution calendar, no token required.
 
 Output: assets/contributions.json
   {"username": ..., "days": [{"date": "2025-01-01", "count": 3, "level": 2}, ...]}
@@ -26,7 +26,7 @@ HEADERS = {
 def parse_html(html):
     soup = BeautifulSoup(html, "html.parser")
 
-    # GitHub menaruh jumlah kontribusi di <tool-tip for="cell-id">N contributions on ...</tool-tip>
+    # GitHub keeps the count in <tool-tip for="cell-id">N contributions on ...</tool-tip>
     tips = {}
     for tip in soup.find_all("tool-tip"):
         target = tip.get("for")
@@ -45,7 +45,7 @@ def parse_html(html):
         level = int(td.get("data-level") or 0)
         count = tips.get(td.get("id"))
         if count is None:
-            # fallback: perkiraan kasar dari level kalau tooltip tidak ada
+            # fallback: rough estimate from the level when no tooltip is present
             count = [0, 1, 3, 6, 10][min(level, 4)]
         days.append({"date": d, "count": count, "level": level})
 
@@ -54,11 +54,11 @@ def parse_html(html):
 
 
 def demo_days():
-    """Data contoh supaya pipeline bisa dites tanpa username asli."""
+    """Sample data so the pipeline can be tested without a real username."""
     rng = random.Random(7)
     today = date.today()
     start = today - timedelta(days=364)
-    start -= timedelta(days=(start.weekday() + 1) % 7)  # mundur ke hari Minggu
+    start -= timedelta(days=(start.weekday() + 1) % 7)  # rewind to Sunday
     out = []
     d = start
     while d <= today:
@@ -74,14 +74,14 @@ def main():
     cfg = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))
     ap = argparse.ArgumentParser()
     ap.add_argument("--user", default=os.environ.get("GH_USER") or cfg["username"])
-    ap.add_argument("--demo", action="store_true", help="pakai data contoh, jangan scrape")
+    ap.add_argument("--demo", action="store_true", help="use sample data instead of scraping")
     args = ap.parse_args()
 
     user = args.user
     days = []
 
     if args.demo or user == "YOUR_GITHUB_USERNAME":
-        print("[i] mode demo - memakai data contoh")
+        print("[i] demo mode - using sample data")
         days = demo_days()
     else:
         try:
@@ -89,17 +89,17 @@ def main():
             r.raise_for_status()
             days = parse_html(r.text)
         except Exception as e:  # noqa: BLE001
-            print("[!] gagal ambil data (%s)" % e, file=sys.stderr)
+            print("[!] fetch failed (%s)" % e, file=sys.stderr)
 
         if not days:
-            print("[!] kalender kosong - fallback ke data contoh", file=sys.stderr)
+            print("[!] empty calendar - falling back to sample data", file=sys.stderr)
             days = demo_days()
 
     out = ROOT / "assets" / "contributions.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps({"username": user, "days": days}, indent=1), encoding="utf-8")
     total = sum(d["count"] for d in days)
-    print("[ok] %d hari, %d kontribusi -> %s" % (len(days), total, out))
+    print("[ok] %d days, %d contributions -> %s" % (len(days), total, out))
 
 
 if __name__ == "__main__":

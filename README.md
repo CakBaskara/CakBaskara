@@ -2,21 +2,21 @@
 
 <table align="center">
   <tr>
-    <td><img src="assets/portrait-ascii.svg" width="300" alt="Potret ASCII"></td>
-    <td><img src="assets/info-card.svg" width="560" alt="Kartu info"></td>
+    <td><img src="assets/portrait-ascii.svg" width="300" alt="ASCII portrait"></td>
+    <td><img src="assets/info-card.svg" width="560" alt="Info card"></td>
   </tr>
 </table>
 
 <p align="center">
-  <img src="assets/contrib-heatmap.svg" width="860" alt="Heatmap kontribusi">
+  <img src="assets/contrib-heatmap.svg" width="860" alt="Contribution heatmap">
 </p>
 
 <br>
 
-<h3 align="center">Kalau tidak suka garis tabelnya, ganti blok tabel di atas dengan ini:</h3>
-
 <!--
-<p align="center">
-  <img src="assets/portrait-ascii.svg" width="298" alt="Potret ASCII"><img src="assets/info-card.svg" width="556" alt="Kartu info">
-</p>
+  Prefer no table borders? Swap the <table> block above for this:
+
+  <p align="center">
+    <img src="assets/portrait-ascii.svg" width="298" alt="ASCII portrait"><img src="assets/info-card.svg" width="556" alt="Info card">
+  </p>
 -->

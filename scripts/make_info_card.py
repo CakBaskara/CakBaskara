@@ -1,4 +1,4 @@
-"""Kartu info gaya neofetch, tiap baris fade+slide masuk bergantian."""
+"""Neofetch-style info card; each row fades and slides in on a stagger."""
 import json
 import os
 from pathlib import Path
@@ -43,7 +43,7 @@ def main():
             % (PAD, y, esc(k), PAD + KEY_W, y, esc(v))
         )
 
-    # baris palet warna ala neofetch
+    # neofetch-style color palette row
     y += 10
     swatches = ["#39d353", "#26a641", "#006d32", "#58a6ff",
                 "#bc8cff", "#f778ba", "#ffa657", "#8b949e"]

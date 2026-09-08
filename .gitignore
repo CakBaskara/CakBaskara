@@ -1,5 +1,9 @@
 __pycache__/
 *.pyc
 preview.html
+
+# source photos stay local, only the ASCII result is public
+photo.png
+photo.jpg
 foto.png
 foto.jpg

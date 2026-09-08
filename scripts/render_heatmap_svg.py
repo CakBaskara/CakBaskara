@@ -1,4 +1,4 @@
-"""Render assets/contributions.json jadi SVG heatmap beranimasi (reveal diagonal)."""
+"""Render assets/contributions.json into an animated heatmap SVG (diagonal reveal)."""
 import json
 import os
 from datetime import date
@@ -28,11 +28,11 @@ def main():
     data = json.loads((ROOT / "assets" / "contributions.json").read_text(encoding="utf-8"))
     days = data["days"]
 
-    # susun ke kolom minggu: kolom baru tiap hari Minggu
+    # group into week columns: a new column starts every Sunday
     weeks, cur = [], []
     for d in days:
         y, m, dd = (int(x) for x in d["date"].split("-"))
-        wd = (date(y, m, dd).weekday() + 1) % 7  # 0 = Minggu
+        wd = (date(y, m, dd).weekday() + 1) % 7  # 0 = Sunday
         if wd == 0 and cur:
             weeks.append(cur)
             cur = []
@@ -53,12 +53,12 @@ def main():
         for d in week:
             x = PAD_L + wi * STEP
             y = PAD_T + d["wd"] * STEP
-            diag = wi + d["wd"] * 2          # sapuan diagonal kiri-atas -> kanan-bawah
+            diag = wi + d["wd"] * 2          # diagonal sweep, top-left -> bottom-right
             max_diag = max(max_diag, diag)
             delay = "" if STATIC else ' style="animation-delay:%.2fs"' % (diag * 0.022)
             cells.append(
                 '<rect class="c" x="%d" y="%d" width="%d" height="%d" rx="2.5" fill="%s"%s>'
-                '<title>%s: %d kontribusi</title></rect>'
+                '<title>%s: %d contributions</title></rect>'
                 % (x, y, CELL, CELL, palette[min(d["level"], 4)], delay, d["date"], d["count"])
             )
         first = week[0]
@@ -79,7 +79,7 @@ def main():
     active = sum(1 for d in days if d["count"] > 0)
     best = max((d["count"] for d in days), default=0)
 
-    # streak terpanjang
+    # longest streak
     streak = cur_streak = 0
     for d in days:
         cur_streak = cur_streak + 1 if d["count"] > 0 else 0
@@ -120,8 +120,8 @@ def main():
   {daylbl}
   {cells}
   <g class="row"{fd}>
-    <text class="foot" x="{PL}" y="{FY}">{total} kontribusi setahun terakhir · {active} hari aktif · streak terpanjang {streak} hari · hari terbaik {best}</text>
-    <text class="foot" x="{PL}" y="{FY2}">terakhir diperbarui {today}</text>
+    <text class="foot" x="{PL}" y="{FY}">{total} contributions in the last year · {active} active {dayword} · longest streak {streak} {streakword} · best day {best}</text>
+    <text class="foot" x="{PL}" y="{FY2}">last updated {today}</text>
     <text class="foot" x="{LEGX}" y="{FY2}" text-anchor="end">Less</text>
     {legend}
     <text class="foot" x="{W2}" y="{FY2}" text-anchor="end">More</text>
@@ -136,12 +136,14 @@ def main():
         months="\n  ".join(month_labels), daylbl="\n  ".join(day_labels),
         cells="\n  ".join(cells), legend="\n    ".join(legend),
         total=total, active=active, streak=streak, best=best,
+        dayword="day" if active == 1 else "days",
+        streakword="day" if streak == 1 else "days",
         today=date.today().isoformat(),
     )
 
     out = ROOT / "assets" / "contrib-heatmap.svg"
     out.write_text(svg, encoding="utf-8")
-    print("[ok] %s (%dx%d, %d sel)" % (out, WIDTH, height, sum(len(w) for w in weeks)))
+    print("[ok] %s (%dx%d, %d cells)" % (out, WIDTH, height, sum(len(w) for w in weeks)))
 
 
 if __name__ == "__main__":
