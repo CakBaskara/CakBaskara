@@ -18,9 +18,9 @@ from PIL import Image, ImageDraw, ImageOps
 ROOT = Path(__file__).resolve().parent.parent
 STATIC = os.environ.get("STATIC") == "1"
 
-WIDTH, HEIGHT = 370, 300
+WIDTH, HEIGHT = 300, 420
 PAD = 10
-FS = 7.0                 # ukuran font
+FS = 5.0                 # ukuran font
 CHAR_W = FS * 0.6        # lebar karakter monospace
 LINE_H = FS * 1.0
 RAMP = " .`:-=+*cs#%@"
@@ -78,6 +78,8 @@ def main():
     ap.add_argument("--gamma", type=float, default=1.0)
     ap.add_argument("--invert", action="store_true", help="untuk foto berlatar gelap")
     ap.add_argument("--cols", type=int, default=int((WIDTH - 2 * PAD) / CHAR_W))
+    ap.add_argument("--crop", help="potong foto: x,y,w,h dalam piksel")
+    ap.add_argument("--preview", action="store_true", help="cetak ASCII ke terminal")
     args = ap.parse_args()
 
     if args.photo:
@@ -89,10 +91,17 @@ def main():
         print("[i] tanpa --photo, memakai placeholder")
         img = placeholder(cfg["username"] or "anon")
 
+    if args.crop:
+        x, y, w, h = (int(v) for v in args.crop.split(","))
+        img = img.crop((x, y, x + w, y + h))
+
     top_margin = 34
     max_rows = int((HEIGHT - top_margin - PAD) / LINE_H)
     rows = to_rows(img, args.cols, args.gamma, args.invert, max_rows)
     ncols = len(rows[0])
+
+    if args.preview:
+        print(chr(10).join(rows))
 
     art_h = len(rows) * LINE_H
     top = max(top_margin, (HEIGHT - art_h) / 2 + LINE_H)

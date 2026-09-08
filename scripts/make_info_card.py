@@ -6,10 +6,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 STATIC = os.environ.get("STATIC") == "1"
 
-WIDTH, HEIGHT = 490, 300
-PAD = 22
-LINE = 22
-KEY_W = 92
+WIDTH, HEIGHT = 560, 420
+PAD = 26
+LINE = 30
+KEY_W = 108
 
 
 def esc(s):
@@ -62,10 +62,10 @@ def main():
 
     svg = """<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="ui-monospace,SFMono-Regular,Consolas,monospace">
   <style>
-    .key {{ fill: {accent}; font-size: 13px; }}
-    .val {{ fill: {fg};     font-size: 13px; }}
-    .mut {{ fill: {muted};  font-size: 13px; }}
-    .acc {{ fill: {accent}; font-size: 15px; }}
+    .key {{ fill: {accent}; font-size: 15px; }}
+    .val {{ fill: {fg};     font-size: 15px; }}
+    .mut {{ fill: {muted};  font-size: 15px; }}
+    .acc {{ fill: {accent}; font-size: 18px; }}
     .b   {{ font-weight: 700; }}{anim}
   </style>
   <rect x="0" y="0" width="{W}" height="{H}" rx="10" fill="{bg}"/>

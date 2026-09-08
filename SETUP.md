@@ -35,10 +35,31 @@ Skrip satuan kalau mau atur satu-satu:
 | `scripts/make_info_card.py` | `assets/info-card.svg` |
 | `scripts/make_ascii_svg.py` | `assets/portrait-ascii.svg` |
 
-Opsi potret: `--gamma 1.4` (atur terang/gelap), `--invert` (foto berlatar gelap),
-`--cols 90` (lebih detail). Foto yang bagus buat ASCII = subjek terang, latar
-polos, kontras tinggi. Kalau latarnya ramai, hapus dulu backgroundnya di editor
-foto — hasilnya jauh lebih kebaca.
+### Meregenerate potret
+
+Potret **tidak** ikut diperbarui workflow harian, jadi kalau ganti foto harus
+dijalankan manual. Perintah yang dipakai sekarang:
+
+```bash
+python scripts/make_ascii_svg.py --photo foto.png --crop "190,385,655,570" --gamma 1.0
+```
+
+Foto sumbernya sengaja tidak ikut di-commit (ada di `.gitignore`) — yang publik
+cuma hasil ASCII-nya.
+
+Opsi yang tersedia:
+
+| Opsi | Gunanya |
+|---|---|
+| `--crop "x,y,w,h"` | Potong ke kepala–bahu. Ini yang paling menentukan hasilnya. |
+| `--gamma` | < 1.0 latar makin bersih tapi wajah pudar; > 1.0 wajah makin tegas tapi latar berbintik. |
+| `--invert` | Untuk foto berlatar gelap. |
+| `--cols` | Jumlah kolom karakter, makin banyak makin detail. |
+| `--preview` | Cetak hasil ASCII ke terminal, buat ngecek cepat tanpa buka browser. |
+
+Alurnya: jalankan dengan `--preview`, lihat hasilnya di terminal, atur `--crop`
+dan `--gamma` sampai pas, baru commit. Foto yang cocok buat ASCII = subjek
+kontras terhadap latar, latar polos, wajah cukup besar di frame.
 
 Set `STATIC=1` untuk merender versi tanpa animasi (berguna buat preview/thumbnail):
 
@@ -72,5 +93,5 @@ permissions → Read and write permissions**, supaya bot boleh commit.
 
 - GitHub membuang atribut `style=` di README — jarak antar elemen atur pakai `<br>`.
 - Pakai `<h3>` bukan `#`, supaya tidak muncul garis bawah.
-- Lebar sengaja dibuat 370 + 490 = 860 biar sejajar dengan heatmap.
+- Lebar sengaja dibuat 300 + 560 = 860 biar sejajar dengan heatmap.
 - Animasi SVG jalan sekali tiap kali gambar dimuat ulang (bukan loop).

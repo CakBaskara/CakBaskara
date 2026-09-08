@@ -2,8 +2,8 @@
 
 <table align="center">
   <tr>
-    <td><img src="assets/portrait-ascii.svg" width="370" alt="Potret ASCII"></td>
-    <td><img src="assets/info-card.svg" width="490" alt="Kartu info"></td>
+    <td><img src="assets/portrait-ascii.svg" width="300" alt="Potret ASCII"></td>
+    <td><img src="assets/info-card.svg" width="560" alt="Kartu info"></td>
   </tr>
 </table>
 
@@ -17,6 +17,6 @@
 
 <!--
 <p align="center">
-  <img src="assets/portrait-ascii.svg" width="368" alt="Potret ASCII"><img src="assets/info-card.svg" width="486" alt="Kartu info">
+  <img src="assets/portrait-ascii.svg" width="298" alt="Potret ASCII"><img src="assets/info-card.svg" width="556" alt="Kartu info">
 </p>
 -->
