@@ -1,0 +1,20 @@
+{
+  "username": "CakBaskara",
+  "name": "BasBass",
+  "handle": "cakbaskara@github",
+  "info": [
+    ["Location", "Probolinggo, Indonesia"],
+    ["Stack",    "JavaScript"],
+    ["Now",      "Ngoprek dan belajar bikin sesuatu"],
+    ["Focus",    "Web development"],
+    ["Since",    "April 2026 di GitHub"],
+    ["Contact",  "github.com/CakBaskara"]
+  ],
+  "theme": {
+    "bg":     "#0d1117",
+    "fg":     "#c9d1d9",
+    "accent": "#39d353",
+    "muted":  "#8b949e",
+    "border": "#30363d"
+  }
+}

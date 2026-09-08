@@ -1,0 +1,40 @@
+name: update profile art
+
+on:
+  schedule:
+    - cron: "17 6 * * *"      # tiap hari 06:17 UTC (13:17 WIB)
+  workflow_dispatch:           # bisa dijalankan manual dari tab Actions
+  push:
+    branches: [main]
+    paths:
+      - "config.json"
+      - "scripts/**"
+      - ".github/workflows/update-profile-art.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      # potret ASCII sengaja tidak diregenerate tiap hari - fotonya tidak berubah
+      - name: Render heatmap + info card
+        run: |
+          python scripts/fetch_contributions.py
+          python scripts/render_heatmap_svg.py
+          python scripts/make_info_card.py
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: perbarui profile art [skip ci]"
+          file_pattern: assets/*.svg assets/contributions.json

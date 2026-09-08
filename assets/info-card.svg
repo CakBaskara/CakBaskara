@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="490" height="300" viewBox="0 0 490 300" font-family="ui-monospace,SFMono-Regular,Consolas,monospace">
+  <style>
+    .key { fill: #39d353; font-size: 13px; }
+    .val { fill: #c9d1d9;     font-size: 13px; }
+    .mut { fill: #8b949e;  font-size: 13px; }
+    .acc { fill: #39d353; font-size: 15px; }
+    .b   { font-weight: 700; }
+    .ln { opacity: 0; animation: in .55s cubic-bezier(.2,.7,.3,1) forwards; }
+    @keyframes in { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: none; } }
+    .cur { animation: blink 1.05s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+  </style>
+  <rect x="0" y="0" width="490" height="300" rx="10" fill="#0d1117"/>
+  <rect x=".5" y=".5" width="489" height="299" rx="10" fill="none" stroke="#30363d"/>
+  <text class="mut" x="22" y="30"><tspan class="acc">cakbaskara@github</tspan> ~ $ neofetch</text>
+  <g class="ln" style="animation-delay:0.12s"><text class="acc b" x="22" y="52">BasBass</text></g>
+  <g class="ln" style="animation-delay:0.21s"><text class="mut" x="22" y="74">--------------</text></g>
+  <g class="ln" style="animation-delay:0.30s"><text class="key" x="22" y="100">Location</text><text class="val" x="114" y="100">Probolinggo, Indonesia</text></g>
+  <g class="ln" style="animation-delay:0.39s"><text class="key" x="22" y="122">Stack</text><text class="val" x="114" y="122">JavaScript</text></g>
+  <g class="ln" style="animation-delay:0.48s"><text class="key" x="22" y="144">Now</text><text class="val" x="114" y="144">Ngoprek dan belajar bikin sesuatu</text></g>
+  <g class="ln" style="animation-delay:0.57s"><text class="key" x="22" y="166">Focus</text><text class="val" x="114" y="166">Web development</text></g>
+  <g class="ln" style="animation-delay:0.66s"><text class="key" x="22" y="188">Since</text><text class="val" x="114" y="188">April 2026 di GitHub</text></g>
+  <g class="ln" style="animation-delay:0.75s"><text class="key" x="22" y="210">Contact</text><text class="val" x="114" y="210">github.com/CakBaskara</text></g>
+  <g class="ln" style="animation-delay:0.84s"><rect x="22" y="233" width="16" height="10" rx="2" fill="#39d353"/><rect x="42" y="233" width="16" height="10" rx="2" fill="#26a641"/><rect x="62" y="233" width="16" height="10" rx="2" fill="#006d32"/><rect x="82" y="233" width="16" height="10" rx="2" fill="#58a6ff"/><rect x="102" y="233" width="16" height="10" rx="2" fill="#bc8cff"/><rect x="122" y="233" width="16" height="10" rx="2" fill="#f778ba"/><rect x="142" y="233" width="16" height="10" rx="2" fill="#ffa657"/><rect x="162" y="233" width="16" height="10" rx="2" fill="#8b949e"/></g>
+  <g class="ln" style="animation-delay:0.93s">
+    <text class="mut" x="22" y="282"><tspan class="acc">cakbaskara@github</tspan> ~ $ <tspan class="cur">&#9608;</tspan></text>
+  </g>
+</svg>
