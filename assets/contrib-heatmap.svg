@@ -402,12 +402,12 @@
   <g class="row" style="animation-delay:1.59s">
     <text class="foot" x="34" y="160">10 contributions in the last year · 4 active days · longest streak 1 day · best day 5</text>
     <text class="foot" x="34" y="182">last updated 2026-09-08</text>
-    <text class="foot" x="753" y="182" text-anchor="end">Less</text>
-    <rect x="761" y="172" width="12" height="12" rx="2.5" fill="#161b22"/>
-    <rect x="776" y="172" width="12" height="12" rx="2.5" fill="#0e4429"/>
-    <rect x="791" y="172" width="12" height="12" rx="2.5" fill="#006d32"/>
-    <rect x="806" y="172" width="12" height="12" rx="2.5" fill="#26a641"/>
-    <rect x="821" y="172" width="12" height="12" rx="2.5" fill="#39d353"/>
-    <text class="foot" x="836" y="182" text-anchor="end">More</text>
+    <text class="foot" x="720" y="182" text-anchor="end">Less</text>
+    <rect x="728" y="172" width="12" height="12" rx="2.5" fill="#161b22"/>
+    <rect x="743" y="172" width="12" height="12" rx="2.5" fill="#0e4429"/>
+    <rect x="758" y="172" width="12" height="12" rx="2.5" fill="#006d32"/>
+    <rect x="773" y="172" width="12" height="12" rx="2.5" fill="#26a641"/>
+    <rect x="788" y="172" width="12" height="12" rx="2.5" fill="#39d353"/>
+    <text class="foot" x="808" y="182">More</text>
   </g>
 </svg>

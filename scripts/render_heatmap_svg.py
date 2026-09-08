@@ -88,8 +88,11 @@ def main():
         cur_streak = cur_streak + 1 if d["count"] > 0 else 0
         streak = max(streak, cur_streak)
 
+    # lay the legend out from the right edge, reserving room for the "More"
+    # label so it sits beside the swatches instead of on top of them
     legend = []
-    lx = WIDTH - 24 - 5 * STEP
+    MORE_W = 36
+    lx = WIDTH - 24 - MORE_W - (4 * STEP + CELL)
     for i, c in enumerate(palette):
         legend.append(
             '<rect x="%d" y="%d" width="%d" height="%d" rx="2.5" fill="%s"/>'
@@ -127,12 +130,13 @@ def main():
     <text class="foot" x="{PL}" y="{FY2}">last updated {today}</text>
     <text class="foot" x="{LEGX}" y="{FY2}" text-anchor="end">Less</text>
     {legend}
-    <text class="foot" x="{W2}" y="{FY2}" text-anchor="end">More</text>
+    <text class="foot" x="{MOREX}" y="{FY2}">More</text>
   </g>
 </svg>
 """.format(
         W=WIDTH, H=height, W1=WIDTH - 1, H1=height - 1, W2=WIDTH - 24,
         PL=PAD_L, FY=foot_y, FY2=foot_y + 22, LEGX=lx - 8,
+        MOREX=lx + 4 * STEP + CELL + 8,
         bg=theme["bg"], fg=theme["fg"], muted=theme["muted"],
         accent=theme["accent"], border=theme["border"],
         handle=esc(cfg["handle"]), anim=anim, fd=fade_delay,
