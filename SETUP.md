@@ -11,11 +11,22 @@ services here — everything is generated inside this repo.
 {
   "username": "yourname",        // used to scrape the contribution calendar
   "name": "Your Name",
-  "handle": "you@github",        // the fake shell prompt on each card
+  "handle": "you@github",        // name used in the fake shell prompt
+  "show_prompt": false,          // draw those prompt lines at all
   "info": [["Now", "..."], ...], // neofetch card rows, add or remove freely
   "theme": { ... }               // colors
 }
 ```
+
+### The fake shell prompts
+
+`show_prompt` controls every simulated terminal line at once — the header on
+each of the three cards plus the blinking cursor at the bottom of the info
+card. Set it to `true` and they all come back; the cards reflow to make room,
+so nothing overlaps either way.
+
+Note that the `<h3>` heading in `README.md` is a separate, hand-written line —
+change or delete it there if you want the prompt styling gone everywhere.
 
 ## 2. Generate
 

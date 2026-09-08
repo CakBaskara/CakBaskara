@@ -10,6 +10,11 @@ WIDTH, HEIGHT = 560, 420
 PAD = 26
 LINE = 30
 KEY_W = 108
+CURSOR_TPL = ('  <g class="ln"%s>' + chr(10) +
+              '    <text class="mut" x="%d" y="%d"><tspan class="acc">%s</tspan>'
+              ' ~ $ <tspan class="cur">&#9608;</tspan></text>' + chr(10) +
+              '  </g>' + chr(10))
+PROMPT_TPL = '  <text class="mut" x="%d" y="%d"><tspan class="acc">%s</tspan> ~ $ neofetch</text>'
 
 
 def esc(s):
@@ -20,8 +25,9 @@ def main():
     cfg = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))
     t = cfg["theme"]
     rows = cfg["info"]
+    show_prompt = cfg.get("show_prompt", True)
 
-    y = PAD + 30
+    y = PAD + 30 if show_prompt else PAD + 18
     lines = []
     i = 0
 
@@ -70,17 +76,16 @@ def main():
   </style>
   <rect x="0" y="0" width="{W}" height="{H}" rx="10" fill="{bg}"/>
   <rect x=".5" y=".5" width="{W1}" height="{H1}" rx="10" fill="none" stroke="{border}"/>
-  <text class="mut" x="{PAD}" y="{TY}"><tspan class="acc">{handle}</tspan> ~ $ neofetch</text>
+{header}
   {lines}
-  <g class="ln"{cd}>
-    <text class="mut" x="{PAD}" y="{CY}"><tspan class="acc">{handle}</tspan> ~ $ <tspan class="cur">&#9608;</tspan></text>
-  </g>
-</svg>
+{cursor}</svg>
 """.format(
         W=WIDTH, H=HEIGHT, W1=WIDTH - 1, H1=HEIGHT - 1, PAD=PAD, TY=PAD + 8,
-        CY=min(y + LINE + 4, HEIGHT - PAD + 4),
         bg=t["bg"], fg=t["fg"], muted=t["muted"], accent=t["accent"], border=t["border"],
         handle=esc(cfg["handle"]), anim=anim, cd=cur_delay,
+        cursor=(CURSOR_TPL % (cur_delay, PAD, min(y + LINE + 4, HEIGHT - PAD + 4),
+                              esc(cfg["handle"]))) if show_prompt else "",
+        header=(PROMPT_TPL % (PAD, PAD + 8, esc(cfg["handle"]))) if show_prompt else "",
         lines="\n  ".join(lines),
     )
 

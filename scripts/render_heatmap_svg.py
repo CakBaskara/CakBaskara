@@ -9,11 +9,12 @@ STATIC = os.environ.get("STATIC") == "1"
 
 CELL, GAP = 12, 3
 STEP = CELL + GAP
-PAD_L, PAD_T = 34, 42
+PAD_L, PAD_T = 34, 42          # PAD_T shrinks when the prompt line is off
 WIDTH = 860
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
           "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 DAY_LABELS = {1: "Mon", 3: "Wed", 5: "Fri"}
+PROMPT_TPL = '  <text class="ttl" x="%d" y="24"><tspan class="acc">%s</tspan> ~ $ git log --graph --all</text>'
 
 
 def esc(s):
@@ -23,6 +24,8 @@ def esc(s):
 def main():
     cfg = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))
     theme = cfg["theme"]
+    show_prompt = cfg.get("show_prompt", True)
+    pad_t = PAD_T if show_prompt else 24
     palette = ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"]
 
     data = json.loads((ROOT / "assets" / "contributions.json").read_text(encoding="utf-8"))
@@ -44,7 +47,7 @@ def main():
 
     grid_w = len(weeks) * STEP - GAP
     grid_h = 7 * STEP - GAP
-    foot_y = PAD_T + grid_h + 34
+    foot_y = pad_t + grid_h + 34
     height = foot_y + 44
 
     cells, month_labels, seen_months = [], [], set()
@@ -52,7 +55,7 @@ def main():
     for wi, week in enumerate(weeks):
         for d in week:
             x = PAD_L + wi * STEP
-            y = PAD_T + d["wd"] * STEP
+            y = pad_t + d["wd"] * STEP
             diag = wi + d["wd"] * 2          # diagonal sweep, top-left -> bottom-right
             max_diag = max(max_diag, diag)
             delay = "" if STATIC else ' style="animation-delay:%.2fs"' % (diag * 0.022)
@@ -67,11 +70,11 @@ def main():
             seen_months.add(mo)
             month_labels.append(
                 '<text class="lbl" x="%d" y="%d">%s</text>'
-                % (PAD_L + wi * STEP, PAD_T - 8, MONTHS[mo - 1])
+                % (PAD_L + wi * STEP, pad_t - 8, MONTHS[mo - 1])
             )
 
     day_labels = [
-        '<text class="lbl" x="%d" y="%d">%s</text>' % (4, PAD_T + i * STEP + CELL - 2, t)
+        '<text class="lbl" x="%d" y="%d">%s</text>' % (4, pad_t + i * STEP + CELL - 2, t)
         for i, t in DAY_LABELS.items()
     ]
 
@@ -115,7 +118,7 @@ def main():
   </style>
   <rect class="bg" x="0" y="0" width="{W}" height="{H}" rx="10"/>
   <rect x=".5" y=".5" width="{W1}" height="{H1}" rx="10" fill="none" stroke="{border}"/>
-  <text class="ttl" x="{PL}" y="24"><tspan class="acc">{handle}</tspan> ~ $ git log --graph --all</text>
+{header}
   {months}
   {daylbl}
   {cells}
@@ -133,6 +136,7 @@ def main():
         bg=theme["bg"], fg=theme["fg"], muted=theme["muted"],
         accent=theme["accent"], border=theme["border"],
         handle=esc(cfg["handle"]), anim=anim, fd=fade_delay,
+        header=(PROMPT_TPL % (PAD_L, esc(cfg["handle"]))) if show_prompt else "",
         months="\n  ".join(month_labels), daylbl="\n  ".join(day_labels),
         cells="\n  ".join(cells), legend="\n    ".join(legend),
         total=total, active=active, streak=streak, best=best,

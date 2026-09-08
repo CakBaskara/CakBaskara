@@ -2,19 +2,38 @@
   "username": "CakBaskara",
   "name": "BasBass",
   "handle": "cakbaskara@github",
+  "show_prompt": false,
   "info": [
-    ["Location", "Probolinggo, Indonesia"],
-    ["Stack",    "JavaScript"],
-    ["Now",      "Building things and learning as I go"],
-    ["Focus",    "Web development"],
-    ["Since",    "April 2026 on GitHub"],
-    ["Contact",  "github.com/CakBaskara"]
+    [
+      "Location",
+      "Probolinggo, Indonesia"
+    ],
+    [
+      "Stack",
+      "JavaScript"
+    ],
+    [
+      "Now",
+      "Building things and learning as I go"
+    ],
+    [
+      "Focus",
+      "Web development"
+    ],
+    [
+      "Since",
+      "April 2026 on GitHub"
+    ],
+    [
+      "Contact",
+      "github.com/CakBaskara"
+    ]
   ],
   "theme": {
-    "bg":     "#0d1117",
-    "fg":     "#c9d1d9",
+    "bg": "#0d1117",
+    "fg": "#c9d1d9",
     "accent": "#39d353",
-    "muted":  "#8b949e",
+    "muted": "#8b949e",
     "border": "#30363d"
   }
 }

@@ -25,6 +25,7 @@ FS = 5.0                 # font size
 CHAR_W = FS * 0.6        # monospace character width
 LINE_H = FS * 1.0
 RAMP = " .`:-=+*cs#%@"
+PROMPT_TPL = '  <text class="hdr" x="%d" y="24"><tspan class="acc">%s</tspan> ~ $ ./portrait</text>'
 
 
 def esc(s):
@@ -131,7 +132,8 @@ def main():
     if args.nobg:
         img = strip_background(img)
 
-    top_margin = 34
+    show_prompt = cfg.get("show_prompt", True)
+    top_margin = 34 if show_prompt else 12
     max_rows = int((HEIGHT - top_margin - PAD) / LINE_H)
     rows = to_rows(img, args.cols, args.gamma, args.invert, max_rows, args.vignette)
     ncols = len(rows[0])
@@ -172,13 +174,14 @@ def main():
   </defs>
   <rect x="0" y="0" width="{W}" height="{H}" rx="10" fill="{bg}"/>
   <rect x=".5" y=".5" width="{W1}" height="{H1}" rx="10" fill="none" stroke="{border}"/>
-  <text class="hdr" x="{PAD}" y="24"><tspan class="acc">{handle}</tspan> ~ $ ./portrait</text>
+{header}
 {texts}
 </svg>
 """.format(
         W=WIDTH, H=HEIGHT, W1=WIDTH - 1, H1=HEIGHT - 1, PAD=PAD, fs=FS,
         bg=t["bg"], fg=t["fg"], muted=t["muted"], accent=t["accent"], border=t["border"],
         handle=esc(cfg["handle"]),
+        header=(PROMPT_TPL % (PAD, esc(cfg["handle"]))) if show_prompt else "",
         defs="\n".join("    " + d for d in defs),
         texts="\n".join("  " + x for x in texts),
     )
