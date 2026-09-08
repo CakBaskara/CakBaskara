@@ -13,8 +13,8 @@
   <rect x="0" y="0" width="560" height="420" rx="10" fill="#0d1117"/>
   <rect x=".5" y=".5" width="559" height="419" rx="10" fill="none" stroke="#30363d"/>
 
-  <g class="ln" style="animation-delay:0.12s"><text class="acc b" x="26" y="44">BasBass</text></g>
-  <g class="ln" style="animation-delay:0.21s"><text class="mut" x="26" y="74">--------------</text></g>
+  <g class="ln" style="animation-delay:0.12s"><text class="acc b" x="26" y="44">call me BasBass</text></g>
+  <g class="ln" style="animation-delay:0.21s"><text class="mut" x="26" y="74">------------------------------</text></g>
   <g class="ln" style="animation-delay:0.30s"><text class="key" x="26" y="108">Location</text><text class="val" x="134" y="108">Probolinggo, Indonesia</text></g>
   <g class="ln" style="animation-delay:0.39s"><text class="key" x="26" y="138">Stack</text><text class="val" x="134" y="138">JavaScript</text></g>
   <g class="ln" style="animation-delay:0.48s"><text class="key" x="26" y="168">Now</text><text class="val" x="134" y="168">Building things and learning as I go</text></g>
