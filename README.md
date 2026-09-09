@@ -3,7 +3,7 @@
 <table align="center">
   <tr>
     <td><img src="assets/portrait-ascii.svg" width="300" alt="ASCII portrait"></td>
-    <td><img src="assets/info-card.svg" width="560" alt="Info card"></td>
+    <td><img src="assets/info-card.svg?v=2" width="560" alt="Info card"></td>
   </tr>
 </table>
 
@@ -17,6 +17,6 @@
   Prefer no table borders? Swap the <table> block above for this:
 
   <p align="center">
-    <img src="assets/portrait-ascii.svg" width="298" alt="ASCII portrait"><img src="assets/info-card.svg" width="556" alt="Info card">
+    <img src="assets/portrait-ascii.svg" width="298" alt="ASCII portrait"><img src="assets/info-card.svg?v=2" width="556" alt="Info card">
   </p>
 -->
