@@ -59,9 +59,11 @@ each of the three cards plus the blinking cursor at the bottom of the info
 card. Set it to `true` and they all come back; the cards reflow to make room,
 so nothing overlaps either way.
 
-The `<h3>` heading between the `profile-title` markers in `README.md` is generated
-from `profile_title`; edit that config field to change it. Other README content
-is preserved.
+The centered title between the `profile-title` markers in `README.md` is generated
+from `profile_title`; edit that config field to change it. It uses ordinary bold
+text, not a heading, so GitHub does not add a clickable heading permalink.
+The cards and toolbox between the `profile-body` markers are generated too;
+edit `config.json` rather than that HTML. Content outside these markers is preserved.
 
 ## 3. Generate
 
@@ -79,10 +81,10 @@ Individual scripts if you want to run one at a time:
 |---|---|
 | `scripts/fetch_contributions.py` | `assets/contributions.json` (scraped, no token needed) |
 | `scripts/render_heatmap_svg.py` | `assets/contrib-heatmap.svg` |
-| `scripts/make_info_card.py` | `assets/info-card.svg` |
+| `scripts/make_info_card.py` | `assets/info-card.svg`, `assets/info-summary.svg`, `assets/toolbox/*.svg` |
 | `scripts/make_ascii_svg.py` | `assets/portrait-ascii.svg` |
 | `scripts/prepare_profile.py` | owner-specific `config.json` (run by `build.py`) |
-| `scripts/refresh_readme.py` | README title and image cache versions (run by `build.py`) |
+| `scripts/refresh_readme.py` | README title, non-linked pictures, icon tooltips, and cache versions (run by `build.py`) |
 
 Use `build.py` for complete owner adaptation. After running an individual renderer,
 run `python scripts/refresh_readme.py` to refresh README image versions. Each SVG
@@ -95,6 +97,15 @@ logo source integrity, and actual SVG rendering bounds for every icon.
 
 All toolbox logos are vendored SVGs from one pinned Simple Icons revision in
 `scripts/icons/`; normal builds need no icon download or font-symbol substitution.
+The README uses a separate `<picture><img ...></picture>` for every image: GitHub's
+README renderer leaves these unlinked instead of auto-linking bare `<img>` tags.
+Each toolbox image has its own `title` (native hover tooltip) and `alt` (accessible
+name), such as `Python` or `GitHub Actions`. Tooltips require a hover-capable device;
+touchscreens do not reliably show native title tooltips. This prevents navigation
+on a normal click, but does not prevent saving images or using the browser's context menu.
+The combined `info-card.svg` remains available for standalone images and PNG exports;
+one flattened SVG or PNG embedded as an image cannot provide separate icon tooltips.
+
 Run `python scripts/preview_icons.py` after rendering the card to inspect the
 ignored local previews `preview-icons.png` and `preview-info-card.png`.
 
@@ -170,6 +181,6 @@ permissions → Read and write permissions**, so the bot is allowed to commit.
 ## Notes on the README
 
 - GitHub strips `style=` attributes in READMEs — use `<br>` for spacing.
-- Use `<h3>` instead of `#` to avoid the underline rule.
+- The profile title is bold text without a heading permalink.
 - Widths are 300 + 560 = 860 so the cards line up with the heatmap.
 - SVG animations replay on every image load, they don't loop.

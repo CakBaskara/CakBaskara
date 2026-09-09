@@ -22,7 +22,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from scripts.prepare_profile import adapt_config, owner_from_remote, prepare_profile, resolve_owner
 from scripts.refresh_readme import refresh_readme
-from make_info_card import icon_markup
+from make_info_card import icon_markup, write_info_assets
 import fetch_contributions
 import make_ascii_svg
 
@@ -93,15 +93,17 @@ class ProfileTests(unittest.TestCase):
             shutil.copy2(ROOT / "README.md", root / "README.md")
             for name in ("portrait-ascii.svg", "info-card.svg", "contrib-heatmap.svg"):
                 (root / "assets" / name).write_bytes(name.encode())
+            write_info_assets(self.cfg, root)
+            (root / "assets" / "info-summary.svg").write_bytes(b"info-summary.svg")
             refresh_readme(root)
             first = (root / "README.md").read_bytes()
             self.assertIn(b"Alice &amp; Bob &lt;test&gt;", first)
             refresh_readme(root)
             self.assertEqual((root / "README.md").read_bytes(), first)
-            (root / "assets" / "info-card.svg").write_bytes(b"updated")
+            (root / "assets" / "info-summary.svg").write_bytes(b"updated")
             refresh_readme(root)
             second = (root / "README.md").read_bytes()
-            old_hash = hashlib.sha256(b"info-card.svg").hexdigest()[:16].encode()
+            old_hash = hashlib.sha256(b"info-summary.svg").hexdigest()[:16].encode()
             new_hash = hashlib.sha256(b"updated").hexdigest()[:16].encode()
             self.assertEqual(first.replace(old_hash, new_hash), second)
 
@@ -123,12 +125,14 @@ class ProfileTests(unittest.TestCase):
             self.assertEqual(json.loads((root / "config.json").read_text())["portrait_owner"], "alice")
             self.assertEqual(json.loads((root / "assets" / "contributions.json").read_text())["username"], "alice")
             self.assertNotIn(self.cfg["username"], (root / "README.md").read_text(encoding="utf-8"))
-            for svg in (root / "assets").glob("*.svg"):
+            for svg in (root / "assets").rglob("*.svg"):
                 ET.parse(svg)
-            before = {path.name: path.read_bytes() for path in (root / "assets").iterdir()}
+            before = {path.relative_to(root): path.read_bytes()
+                      for path in (root / "assets").rglob("*") if path.is_file()}
             result = subprocess.run(command, cwd=root, env=env, capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            self.assertEqual(before, {path.name: path.read_bytes() for path in (root / "assets").iterdir()})
+            self.assertEqual(before, {path.relative_to(root): path.read_bytes()
+                                     for path in (root / "assets").rglob("*") if path.is_file()})
 
     def test_cache_version_is_independent_of_platform_line_endings(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -136,11 +140,14 @@ class ProfileTests(unittest.TestCase):
             (root / "assets").mkdir()
             (root / "config.json").write_text(json.dumps(self.cfg), encoding="utf-8")
             shutil.copy2(ROOT / "README.md", root / "README.md")
+            write_info_assets(self.cfg, root)
             for name in ("portrait-ascii.svg", "info-card.svg", "contrib-heatmap.svg"):
                 (root / "assets" / name).write_bytes(b"<svg>\r\n</svg>\r\n")
+            for asset in (root / "assets").rglob("*.svg"):
+                asset.write_bytes(b"<svg>\r\n</svg>\r\n")
             refresh_readme(root)
             first = (root / "README.md").read_bytes()
-            for asset in (root / "assets").iterdir():
+            for asset in (root / "assets").rglob("*.svg"):
                 asset.write_bytes(b"<svg>\n</svg>\n")
             refresh_readme(root)
             self.assertEqual(first, (root / "README.md").read_bytes())

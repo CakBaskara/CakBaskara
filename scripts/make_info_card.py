@@ -41,8 +41,7 @@ def icon_markup(slug, x, y):
     return base + content + '</g>'
 
 
-def main():
-    cfg = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))
+def render_info_card(cfg, include_toolbox=True):
     t = cfg["theme"]
     rows = cfg["info"]
     toolbox = cfg.get("toolbox", [])
@@ -70,7 +69,7 @@ def main():
             % (PAD, y, esc(k), PAD + KEY_W, y, esc(v))
         )
 
-    if toolbox:
+    if include_toolbox and toolbox:
         y += 10
         for group in toolbox:
             icons = "".join(
@@ -82,7 +81,7 @@ def main():
                 % (PAD, y, esc(group["label"]), icons),
                 step=45,
             )
-    else:
+    elif include_toolbox:
         # Fallback for older configs without a toolbox.
         y += 10
         swatches = ["#39d353", "#26a641", "#006d32", "#58a6ff",
@@ -92,6 +91,10 @@ def main():
             % (PAD + n * 20, y - 9, c)
             for n, c in enumerate(swatches)
         ))
+
+    # The README uses a compact summary and separate icons for per-icon tooltips.
+    # Keep the original combined card for standalone SVG/PNG exports.
+    height = HEIGHT if include_toolbox else y + (LINE + PAD if show_prompt else 0)
 
     anim = "" if STATIC else """
     .ln { opacity: 0; animation: in .55s cubic-bezier(.2,.7,.3,1) forwards; }
@@ -116,18 +119,43 @@ def main():
   {lines}
 {cursor}</svg>
 """.format(
-        W=WIDTH, H=HEIGHT, W1=WIDTH - 1, H1=HEIGHT - 1, PAD=PAD, TY=PAD + 8,
+        W=WIDTH, H=height, W1=WIDTH - 1, H1=height - 1, PAD=PAD, TY=PAD + 8,
         bg=t["bg"], fg=t["fg"], muted=t["muted"], accent=t["accent"], border=t["border"],
         handle=esc(cfg["handle"]), anim=anim, cd=cur_delay,
-        cursor=(CURSOR_TPL % (cur_delay, PAD, min(y + LINE + 4, HEIGHT - PAD + 4),
+        cursor=(CURSOR_TPL % (cur_delay, PAD, min(y + LINE + 4, height - PAD + 4),
                               esc(cfg["handle"]))) if show_prompt else "",
         header=(PROMPT_TPL % (PAD, PAD + 8, esc(cfg["handle"]))) if show_prompt else "",
         lines="\n  ".join(lines),
     )
 
-    out = ROOT / "assets" / "info-card.svg"
-    out.write_text(svg, encoding="utf-8")
-    print("[ok] %s (%dx%d)" % (out, WIDTH, HEIGHT))
+    return svg
+
+
+def render_badge(slug):
+    return (
+        '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">'
+        + icon_markup(slug, 0, 0) + '</svg>\n'
+    )
+
+
+def write_info_assets(cfg, root=ROOT):
+    assets = root / "assets"
+    assets.mkdir(parents=True, exist_ok=True)
+    for name, include_toolbox in (("info-card.svg", True), ("info-summary.svg", False)):
+        (assets / name).write_text(render_info_card(cfg, include_toolbox), encoding="utf-8")
+    for group in cfg.get("toolbox", []):
+        for slug in group["items"]:
+            # Validate against the vendored icon registry before constructing a path.
+            svg = render_badge(slug)
+            directory = assets / "toolbox"
+            directory.mkdir(exist_ok=True)
+            (directory / (slug + ".svg")).write_text(svg, encoding="utf-8")
+    print("[ok] Info card, README summary, and configured toolbox badges are current")
+
+
+def main():
+    cfg = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))
+    write_info_assets(cfg, ROOT)
 
 
 if __name__ == "__main__":

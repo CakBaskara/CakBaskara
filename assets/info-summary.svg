@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="230" viewBox="0 0 560 230" font-family="ui-monospace,SFMono-Regular,Consolas,monospace">
+  <style>
+    .key { fill: #39d353; font-size: 15px; }
+    .val { fill: #c9d1d9;     font-size: 15px; }
+    .mut { fill: #8b949e;  font-size: 15px; }
+    .acc { fill: #39d353; font-size: 18px; }
+    .group { fill: #c9d1d9; font-size: 11px; font-weight: 700; }
+    .b   { font-weight: 700; }
+    .ln { opacity: 0; animation: in .55s cubic-bezier(.2,.7,.3,1) forwards; }
+    @keyframes in { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: none; } }
+    .cur { animation: blink 1.05s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+  </style>
+  <rect x="0" y="0" width="560" height="230" rx="10" fill="#0d1117"/>
+  <rect x=".5" y=".5" width="559" height="229" rx="10" fill="none" stroke="#30363d"/>
+
+  <g class="ln" style="animation-delay:0.12s"><text class="acc b" x="26" y="44">call me BasBass</text></g>
+  <g class="ln" style="animation-delay:0.21s"><text class="mut" x="26" y="70">------------------------------</text></g>
+  <g class="ln" style="animation-delay:0.30s"><text class="key" x="26" y="100">Location</text><text class="val" x="134" y="100">Probolinggo, Indonesia</text></g>
+  <g class="ln" style="animation-delay:0.39s"><text class="key" x="26" y="126">Now</text><text class="val" x="134" y="126">Building data-driven workflow tools</text></g>
+  <g class="ln" style="animation-delay:0.48s"><text class="key" x="26" y="152">Focus</text><text class="val" x="134" y="152">Finance · operations · automation</text></g>
+  <g class="ln" style="animation-delay:0.57s"><text class="key" x="26" y="178">Projects</text><text class="val" x="134" y="178">Market tools · inspection · budgeting</text></g>
+  <g class="ln" style="animation-delay:0.66s"><text class="key" x="26" y="204">Contact</text><text class="val" x="134" y="204">github.com/CakBaskara</text></g>
+</svg>
