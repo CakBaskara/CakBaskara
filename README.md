@@ -10,7 +10,7 @@
 </table>
 
 <p align="center">
-  <img src="assets/contrib-heatmap.svg?v=d6f2d7f17e652c8e" width="860" alt="Contribution heatmap">
+  <img src="assets/contrib-heatmap.svg?v=763455a9e1431862" width="860" alt="Contribution heatmap">
 </p>
 
 <br>
