@@ -89,7 +89,14 @@ run `python scripts/refresh_readme.py` to refresh README image versions. Each SV
 URL includes a hash of its contents; only changed images receive a new URL. This
 avoids reusing the old image cache without routinely purging GitHub's shared cache.
 
-Verify copied-owner behavior offline with `python -m unittest discover -s tests -v`.
+For verification, install `pip install -r requirements-dev.txt` and run
+`python -m unittest discover -s tests -v`. This checks owner adaptation, pinned
+logo source integrity, and actual SVG rendering bounds for every icon.
+
+All toolbox logos are vendored SVGs from one pinned Simple Icons revision in
+`scripts/icons/`; normal builds need no icon download or font-symbol substitution.
+Run `python scripts/preview_icons.py` after rendering the card to inspect the
+ignored local previews `preview-icons.png` and `preview-info-card.png`.
 
 Set `STATIC=1` to render a motionless version, useful for thumbnails:
 

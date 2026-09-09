@@ -14,6 +14,7 @@ LINE = 26
 KEY_W = 108
 ICON_SIZE = 28
 ICON_GAP = 6
+LOGO_SIZE = 20
 CURSOR_TPL = ('  <g class="ln"%s>' + chr(10) +
               '    <text class="mut" x="%d" y="%d"><tspan class="acc">%s</tspan>'
               ' ~ $ <tspan class="cur">&#9608;</tspan></text>' + chr(10) +
@@ -32,18 +33,11 @@ def icon_markup(slug, x, y):
         '<rect x="%d" y="%d" width="%d" height="%d" rx="7" fill="%s"/>'
         % (esc(icon["title"]), x, y, ICON_SIZE, ICON_SIZE, icon["bg"])
     )
-    if "path" in icon:
-        content = (
-            '<path d="%s" fill="%s" transform="translate(%d %d) scale(.75)"/>'
-            % (icon["path"], icon["fg"], x + 5, y + 5)
-        )
-    else:
-        mark = icon["mark"]
-        font_size = 9 if len(mark) > 2 else (17 if mark == "⚛" else 11)
-        content = (
-            '<text class="icon-mark" x="%.1f" y="%d" font-size="%d" fill="%s">%s</text>'
-            % (x + ICON_SIZE / 2, y + 19, font_size, icon["fg"], esc(mark))
-        )
+    inset = (ICON_SIZE - LOGO_SIZE) / 2
+    content = (
+        '<path d="%s" fill="%s" transform="translate(%g %g) scale(%.8f)"/>'
+        % (icon["path"], icon["fg"], x + inset, y + inset, LOGO_SIZE / 24)
+    )
     return base + content + '</g>'
 
 
@@ -114,7 +108,6 @@ def main():
     .mut {{ fill: {muted};  font-size: 15px; }}
     .acc {{ fill: {accent}; font-size: 18px; }}
     .group {{ fill: {fg}; font-size: 11px; font-weight: 700; }}
-    .icon-mark {{ font-weight: 700; text-anchor: middle; }}
     .b   {{ font-weight: 700; }}{anim}
   </style>
   <rect x="0" y="0" width="{W}" height="{H}" rx="10" fill="{bg}"/>

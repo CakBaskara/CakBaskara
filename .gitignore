@@ -2,6 +2,8 @@ __pycache__/
 *.pyc
 .venv/
 preview.html
+preview-icons.png
+preview-info-card.png
 
 # source photos stay local, only the ASCII result is public
 photo.png

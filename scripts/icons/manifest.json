@@ -1,0 +1,19 @@
+{
+  "repository": "https://github.com/simple-icons/simple-icons",
+  "revision": "777807a262bb7384ff406fd4b35fdcd02e9514c3",
+  "sha256": {
+    "docker": "12c23b2939ddfb640dac0d205abc57766052941e227441693cdd1e06ef06aa81",
+    "git": "8ebc7b2a605f5ae7f80e89196a544534e9f790bec78deabfd654cf2ca0a087b9",
+    "githubactions": "3928ad875220b39a694c4a2ade9f07255b37f9bb89804c91d925754c6b24567b",
+    "gnubash": "28c6ca16268e8522f29d9d2a9c8bf0bab99c0de5fb523486eabd9da9da3c62e9",
+    "javascript": "ab3757077958fcc76aca50c55897c0103765c50f6e9441b0e033ca8727e7571a",
+    "n8n": "7de973cd2875206ca0d2782e67571576dc52dd12f111f7da7936dfdab71f2578",
+    "nextdotjs": "994d0f92922759ec19c5b9a458d1bc3e9474bc5e1e1138ac9ca10a590efc88e6",
+    "numpy": "0c779fd8b5542269c8f287f838bef7f537bc4e27e0eca945aabbbd9b7397bb57",
+    "pandas": "e1102eb1432afd317519bcbedc54cf2c092c568cbe32b71e7c0ecf0b94450568",
+    "postgresql": "a86aa546cd9b41cb6ea9ae98a3c1161c1e70bd3eedfd63716d0af4cde44aa95a",
+    "python": "adca85e1d0bd6d796abea422d983fd131a432fe78efeac58af18461eb1548780",
+    "react": "ceca8fea8cbf8c4a8be9c3e3e650cb69d7e29b306b467b9d055de94a86759adc",
+    "typescript": "a746b9eb66fa17014bf8e53004cf5545e5d5f09adc4f356be726e826c16e720d"
+  }
+}

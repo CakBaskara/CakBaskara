@@ -11,6 +11,7 @@ on:
       - "scripts/**"
       - "tests/**"
       - "requirements.txt"
+      - "requirements-dev.txt"
       - "README.md"
       - "assets/*.svg"
       - ".github/workflows/update-profile-art.yml"
@@ -35,7 +36,7 @@ jobs:
           python-version: "3.11"
           cache: pip
 
-      - run: pip install -r requirements.txt
+      - run: pip install -r requirements-dev.txt
 
       - name: Verify profile adaptation
         run: python -m unittest discover -s tests -v
