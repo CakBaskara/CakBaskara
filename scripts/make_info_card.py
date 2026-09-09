@@ -3,13 +3,17 @@ import json
 import os
 from pathlib import Path
 
+from tech_icons import ICONS
+
 ROOT = Path(__file__).resolve().parent.parent
 STATIC = os.environ.get("STATIC") == "1"
 
 WIDTH, HEIGHT = 560, 420
 PAD = 26
-LINE = 30
+LINE = 26
 KEY_W = 108
+ICON_SIZE = 28
+ICON_GAP = 6
 CURSOR_TPL = ('  <g class="ln"%s>' + chr(10) +
               '    <text class="mut" x="%d" y="%d"><tspan class="acc">%s</tspan>'
               ' ~ $ <tspan class="cur">&#9608;</tspan></text>' + chr(10) +
@@ -21,10 +25,33 @@ def esc(s):
     return (str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
 
 
+def icon_markup(slug, x, y):
+    icon = ICONS[slug]
+    base = (
+        '<g><title>%s</title>'
+        '<rect x="%d" y="%d" width="%d" height="%d" rx="7" fill="%s"/>'
+        % (esc(icon["title"]), x, y, ICON_SIZE, ICON_SIZE, icon["bg"])
+    )
+    if "path" in icon and "mark" not in icon:
+        content = (
+            '<path d="%s" fill="%s" transform="translate(%d %d) scale(.75)"/>'
+            % (icon["path"], icon["fg"], x + 5, y + 5)
+        )
+    else:
+        mark = icon["mark"]
+        font_size = 9 if len(mark) > 2 else (17 if mark == "⚛" else 11)
+        content = (
+            '<text class="icon-mark" x="%.1f" y="%d" font-size="%d" fill="%s">%s</text>'
+            % (x + ICON_SIZE / 2, y + 19, font_size, icon["fg"], esc(mark))
+        )
+    return base + content + '</g>'
+
+
 def main():
     cfg = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))
     t = cfg["theme"]
     rows = cfg["info"]
+    toolbox = cfg.get("toolbox", [])
     show_prompt = cfg.get("show_prompt", True)
 
     y = PAD + 30 if show_prompt else PAD + 18
@@ -49,14 +76,28 @@ def main():
             % (PAD, y, esc(k), PAD + KEY_W, y, esc(v))
         )
 
-    # neofetch-style color palette row
-    y += 10
-    swatches = ["#39d353", "#26a641", "#006d32", "#58a6ff",
-                "#bc8cff", "#f778ba", "#ffa657", "#8b949e"]
-    add("".join(
-        '<rect x="%d" y="%d" width="16" height="10" rx="2" fill="%s"/>' % (PAD + n * 20, y - 9, c)
-        for n, c in enumerate(swatches)
-    ))
+    if toolbox:
+        y += 10
+        for group in toolbox:
+            icons = "".join(
+                icon_markup(slug, PAD + n * (ICON_SIZE + ICON_GAP), y + 7)
+                for n, slug in enumerate(group["items"])
+            )
+            add(
+                '<text class="group" x="%d" y="%d">%s</text>%s'
+                % (PAD, y, esc(group["label"]), icons),
+                step=45,
+            )
+    else:
+        # Fallback for older configs without a toolbox.
+        y += 10
+        swatches = ["#39d353", "#26a641", "#006d32", "#58a6ff",
+                    "#bc8cff", "#f778ba", "#ffa657", "#8b949e"]
+        add("".join(
+            '<rect x="%d" y="%d" width="16" height="10" rx="2" fill="%s"/>'
+            % (PAD + n * 20, y - 9, c)
+            for n, c in enumerate(swatches)
+        ))
 
     anim = "" if STATIC else """
     .ln { opacity: 0; animation: in .55s cubic-bezier(.2,.7,.3,1) forwards; }
@@ -72,6 +113,8 @@ def main():
     .val {{ fill: {fg};     font-size: 15px; }}
     .mut {{ fill: {muted};  font-size: 15px; }}
     .acc {{ fill: {accent}; font-size: 18px; }}
+    .group {{ fill: {fg}; font-size: 11px; font-weight: 700; }}
+    .icon-mark {{ font-weight: 700; text-anchor: middle; }}
     .b   {{ font-weight: 700; }}{anim}
   </style>
   <rect x="0" y="0" width="{W}" height="{H}" rx="10" fill="{bg}"/>

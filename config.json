@@ -9,10 +9,6 @@
       "Probolinggo, Indonesia"
     ],
     [
-      "Stack",
-      "Python · TypeScript · JavaScript"
-    ],
-    [
       "Now",
       "Building data-driven workflow tools"
     ],
@@ -28,6 +24,24 @@
       "Contact",
       "github.com/CakBaskara"
     ]
+  ],
+  "toolbox": [
+    {
+      "label": "Languages",
+      "items": ["python", "typescript", "javascript"]
+    },
+    {
+      "label": "Frameworks",
+      "items": ["nextdotjs", "react"]
+    },
+    {
+      "label": "Data",
+      "items": ["numpy", "pandas", "postgresql"]
+    },
+    {
+      "label": "Tools",
+      "items": ["git", "githubactions", "docker", "n8n", "gnubash"]
+    }
   ],
   "theme": {
     "bg": "#0d1117",
