@@ -6,6 +6,7 @@ import re
 from pathlib import Path
 
 from tech_icons import ICONS
+from make_info_card import BADGE_DISPLAY_SIZE
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -26,8 +27,8 @@ def profile_body(root, cfg):
     lines = [
         '<table align="center">',
         '  <tr>',
-        '    <td valign="top">' + picture(root, "portrait-ascii.svg", 300, "ASCII portrait") + '</td>',
-        '    <td valign="top">',
+        '    <td width="35%" align="center" valign="middle">' + picture(root, "portrait-ascii.svg", 300, "ASCII portrait") + '</td>',
+        '    <td width="65%" valign="middle">',
         '      ' + picture(root, "info-summary.svg", 560, "Profile information") + '<br>',
     ]
     for group in cfg.get("toolbox", []):
@@ -37,7 +38,7 @@ def profile_body(root, cfg):
         icons = []
         for slug in group["items"]:
             title = ICONS[slug]["title"]
-            icons.append(picture(root, "toolbox/" + slug + ".svg", 28, title, title=title))
+            icons.append(picture(root, "toolbox/" + slug + ".svg", BADGE_DISPLAY_SIZE, title, title=title))
         lines.append('      &emsp;&ensp;' + ' '.join(icons) + '<br>')
     lines.extend([
         '    </td>',

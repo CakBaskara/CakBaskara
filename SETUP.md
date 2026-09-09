@@ -103,11 +103,19 @@ Each toolbox image has its own `title` (native hover tooltip) and `alt` (accessi
 name), such as `Python` or `GitHub Actions`. Tooltips require a hover-capable device;
 touchscreens do not reliably show native title tooltips. This prevents navigation
 on a normal click, but does not prevent saving images or using the browser's context menu.
+README badges display at 22 px, using the same vector geometry as the combined
+card. Each badge fades and slides in once, staggered after the description rows;
+`STATIC=1` and the device's reduced-motion preference disable badge animation.
+The portrait is centered vertically beside the description and toolbox, with
+35% / 65% column proportions. ASCII rows have an explicit SVG text length so
+font fallback cannot shrink the text grid toward one side of the frame.
 The combined `info-card.svg` remains available for standalone images and PNG exports;
 one flattened SVG or PNG embedded as an image cannot provide separate icon tooltips.
 
 Run `python scripts/preview_icons.py` after rendering the card to inspect the
 ignored local previews `preview-icons.png` and `preview-info-card.png`.
+The same command also writes `preview-portrait.png` with the type-in animation
+fully revealed. These raster previews check SVG geometry, not GitHub's HTML layout.
 
 Set `STATIC=1` to render a motionless version, useful for thumbnails:
 
@@ -116,6 +124,10 @@ STATIC=1 python build.py
 ```
 
 ### Regenerating the portrait
+
+To center the existing ASCII character grid without replacing the portrait or
+reprocessing its source photo, run `python scripts/make_ascii_svg.py --reflow-existing`,
+then `python scripts/refresh_readme.py` to update its cache version.
 
 The portrait is **not** refreshed by the daily workflow, so rerun it by hand
 whenever you change the photo. The command currently in use:

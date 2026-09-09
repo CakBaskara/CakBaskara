@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from make_info_card import render_info_card, write_info_assets
+from make_info_card import BADGE_DISPLAY_SIZE, render_info_card, write_info_assets
 from refresh_readme import refresh_readme
 from tech_icons import ICONS
 
@@ -54,10 +54,19 @@ class ReadmeTests(unittest.TestCase):
         self.assertEqual([image["title"] for image in badges], [ICONS[slug]["title"] for slug in slugs])
         for slug, badge in zip(slugs, badges):
             self.assertEqual(badge["alt"], ICONS[slug]["title"])
-            self.assertEqual((badge["width"], badge["height"]), ("28", "28"))
+            size = str(BADGE_DISPLAY_SIZE)
+            self.assertEqual((badge["width"], badge["height"]), (size, size))
+            self.assertLess(BADGE_DISPLAY_SIZE, 28)
             self.assertTrue(badge["src"].startswith("assets/toolbox/" + slug + ".svg?v="))
             svg = ET.parse(self.root / "assets" / "toolbox" / (slug + ".svg"))
             self.assertEqual(svg.find('.//{http://www.w3.org/2000/svg}path').get("d"), ICONS[slug]["path"])
+
+    def test_portrait_is_centered_in_a_proportional_column(self):
+        soup = self.build()
+        left, right = soup.select('table > tr > td')
+        self.assertEqual((left['width'], right['width']), ('35%', '65%'))
+        self.assertEqual(left['align'], 'center')
+        self.assertEqual((left['valign'], right['valign']), ('middle', 'middle'))
 
     def test_single_badge_change_only_updates_its_own_url(self):
         self.build()

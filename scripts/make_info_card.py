@@ -13,6 +13,7 @@ PAD = 26
 LINE = 26
 KEY_W = 108
 ICON_SIZE = 28
+BADGE_DISPLAY_SIZE = 22
 ICON_GAP = 6
 LOGO_SIZE = 20
 CURSOR_TPL = ('  <g class="ln"%s>' + chr(10) +
@@ -131,10 +132,23 @@ def render_info_card(cfg, include_toolbox=True):
     return svg
 
 
-def render_badge(slug):
+def render_badge(slug, delay=0.75):
+    # Keep the canonical 28-unit artwork; the README displays it more compactly.
+    # Animation belongs inside each SVG so GitHub need not allow README CSS.
+    animation = "" if STATIC else '''
+  <style>
+    .badge { animation: reveal .55s cubic-bezier(.2,.7,.3,1) %.2fs both; }
+    @keyframes reveal {
+      from { opacity: 0; transform: translateX(-6px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @media (prefers-reduced-motion: reduce) { .badge { animation: none; } }
+  </style>
+''' % delay
     return (
-        '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">'
-        + icon_markup(slug, 0, 0) + '</svg>\n'
+        '<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 28 28">'
+        % (BADGE_DISPLAY_SIZE, BADGE_DISPLAY_SIZE)
+        + animation + '<g class="badge">' + icon_markup(slug, 0, 0) + '</g></svg>\n'
     )
 
 
@@ -143,10 +157,11 @@ def write_info_assets(cfg, root=ROOT):
     assets.mkdir(parents=True, exist_ok=True)
     for name, include_toolbox in (("info-card.svg", True), ("info-summary.svg", False)):
         (assets / name).write_text(render_info_card(cfg, include_toolbox), encoding="utf-8")
-    for group in cfg.get("toolbox", []):
-        for slug in group["items"]:
+    first_delay = 0.12 + (2 + len(cfg["info"])) * 0.09
+    for group_index, group in enumerate(cfg.get("toolbox", [])):
+        for icon_index, slug in enumerate(group["items"]):
             # Validate against the vendored icon registry before constructing a path.
-            svg = render_badge(slug)
+            svg = render_badge(slug, first_delay + group_index * 0.09 + icon_index * 0.035)
             directory = assets / "toolbox"
             directory.mkdir(exist_ok=True)
             (directory / (slug + ".svg")).write_text(svg, encoding="utf-8")

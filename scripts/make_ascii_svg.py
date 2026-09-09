@@ -11,6 +11,7 @@ import argparse
 import hashlib
 import json
 import os
+import xml.etree.ElementTree as ET
 from io import BytesIO
 from pathlib import Path
 
@@ -25,6 +26,8 @@ PAD = 10
 FS = 5.0                 # font size
 CHAR_W = FS * 0.6        # monospace character width
 LINE_H = FS * 1.0
+SVG_NS = "{http://www.w3.org/2000/svg}"
+ET.register_namespace("", SVG_NS[1:-1])
 RAMP = " .`:-=+*cs#%@"
 PROMPT_TPL = '  <text class="hdr" x="%d" y="24"><tspan class="acc">%s</tspan> ~ $ ./portrait</text>'
 
@@ -100,6 +103,39 @@ def to_rows(img, cols, gamma, invert, max_rows, vig):
     return ["".join(RAMP[i] for i in row) for row in idx]
 
 
+def center_existing_portrait(svg):
+    """Reflow our ASCII text grid without recreating the owner's photo or rows."""
+    root = ET.fromstring(svg)
+    rows = [node for node in root.findall(SVG_NS + "text")
+            if node.get("{http://www.w3.org/XML/1998/namespace}space") == "preserve"]
+    if not rows:
+        raise ValueError("Existing SVG has no generated ASCII rows to center")
+    lengths = {len(node.text or "") for node in rows}
+    if len(lengths) != 1:
+        raise ValueError("Existing ASCII rows must have a consistent number of columns")
+    width = float(root.get("viewBox").split()[2])
+    row_width = lengths.pop() * CHAR_W
+    left = (width - row_width) / 2
+    if left < PAD:
+        raise ValueError("Existing ASCII grid is wider than the portrait's content area")
+    for row in rows:
+        row.set("x", "%.1f" % left)
+        # Font fallback must not change the width assumed by the ASCII grid.
+        row.set("textLength", "%.1f" % row_width)
+        row.set("lengthAdjust", "spacingAndGlyphs")
+    for clip in root.findall(".//" + SVG_NS + "clipPath"):
+        rect = clip.find(SVG_NS + "rect")
+        if rect is None:
+            continue
+        rect.set("x", "%.1f" % left)
+        animation = rect.find(SVG_NS + "animate")
+        if animation is not None and animation.get("attributeName") == "width":
+            animation.set("to", "%.1f" % row_width)
+        else:
+            rect.set("width", "%.1f" % row_width)
+    return ET.tostring(root, encoding="unicode") + "\n"
+
+
 def main():
     cfg = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))
     t = cfg["theme"]
@@ -108,6 +144,7 @@ def main():
     source = ap.add_mutually_exclusive_group()
     source.add_argument("--photo", help="path to a jpg/png")
     source.add_argument("--github-avatar", action="store_true", help="use the configured owner's public GitHub avatar")
+    source.add_argument("--reflow-existing", action="store_true", help="center existing ASCII rows without changing the source portrait")
     ap.add_argument("--gamma", type=float, default=1.0,
                     help="<1 cleans the background, >1 strengthens the face")
     ap.add_argument("--invert", action="store_true", help="for dark backgrounds")
@@ -118,6 +155,14 @@ def main():
     ap.add_argument("--nobg", action="store_true", help="remove the background (needs rembg)")
     ap.add_argument("--preview", action="store_true", help="print the ASCII to the terminal")
     args = ap.parse_args()
+
+    if args.reflow_existing:
+        if args.crop or args.nobg or args.preview or args.invert or args.vignette or args.gamma != 1.0:
+            ap.error("--reflow-existing only adjusts the existing ASCII grid")
+        out = ROOT / "assets" / "portrait-ascii.svg"
+        out.write_text(center_existing_portrait(out.read_text(encoding="utf-8")), encoding="utf-8")
+        print("[ok] Existing ASCII portrait centered; characters and animation preserved")
+        return
 
     if args.github_avatar:
         import requests
@@ -163,8 +208,8 @@ def main():
     for n, line in enumerate(rows):
         y = top + n * LINE_H
         if STATIC:
-            texts.append('<text x="%.1f" y="%.1f" xml:space="preserve">%s</text>'
-                         % (left, y, esc(line)))
+            texts.append('<text x="%.1f" y="%.1f" textLength="%.1f" lengthAdjust="spacingAndGlyphs" xml:space="preserve">%s</text>'
+                         % (left, y, row_w, esc(line)))
             continue
         defs.append(
             '<clipPath id="r%d"><rect x="%.1f" y="%.1f" width="0" height="%.1f">'
@@ -173,8 +218,8 @@ def main():
             'keySplines="0.2 0.7 0.3 1" keyTimes="0;1"/></rect></clipPath>'
             % (n, left, y - LINE_H, LINE_H + 1, row_w, 0.15 + n * 0.045)
         )
-        texts.append('<text clip-path="url(#r%d)" x="%.1f" y="%.1f" xml:space="preserve">%s</text>'
-                     % (n, left, y, esc(line)))
+        texts.append('<text clip-path="url(#r%d)" x="%.1f" y="%.1f" textLength="%.1f" lengthAdjust="spacingAndGlyphs" xml:space="preserve">%s</text>'
+                     % (n, left, y, row_w, esc(line)))
 
     svg = """<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="ui-monospace,SFMono-Regular,Consolas,monospace">
   <style>

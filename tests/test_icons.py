@@ -4,6 +4,7 @@ import io
 import json
 import sys
 import unittest
+from unittest.mock import patch
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -12,11 +13,37 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from make_info_card import ICON_SIZE, LOGO_SIZE, icon_markup
+from make_info_card import BADGE_DISPLAY_SIZE, ICON_SIZE, LOGO_SIZE, icon_markup, render_badge
 from tech_icons import ICON_DIR, ICONS
 
 
 class IconTests(unittest.TestCase):
+    def test_separate_badges_have_a_single_staggered_entrance(self):
+        ns = '{http://www.w3.org/2000/svg}'
+        for slug in ICONS:
+            with self.subTest(icon=slug), patch('make_info_card.STATIC', False):
+                badge = ET.fromstring(render_badge(slug, delay=0.91))
+                self.assertEqual(badge.get('width'), str(BADGE_DISPLAY_SIZE))
+                self.assertEqual(badge.get('height'), str(BADGE_DISPLAY_SIZE))
+                self.assertEqual(badge.get('viewBox'), '0 0 28 28')
+                css = badge.find(ns + 'style').text
+                self.assertIn('0.91s both', css)
+                self.assertIn('@keyframes reveal', css)
+                self.assertIn('prefers-reduced-motion: reduce', css)
+                self.assertNotIn('infinite', css)
+                self.assertEqual(badge.find(ns + 'g').get('class'), 'badge')
+                self.assertEqual(badge.find('.//' + ns + 'path').get('d'), ICONS[slug]['path'])
+
+    def test_static_badge_is_fully_visible_without_animation(self):
+        with patch('make_info_card.STATIC', True):
+            svg = render_badge('python')
+        self.assertNotIn('<style>', svg)
+        self.assertNotIn('opacity', svg)
+        png = resvg_py.svg_to_bytes(svg_string=svg, skip_system_fonts=True)
+        rendered = Image.open(io.BytesIO(png)).convert('RGBA')
+        self.assertEqual(rendered.size, (BADGE_DISPLAY_SIZE, BADGE_DISPLAY_SIZE))
+        self.assertEqual(rendered.getchannel('A').getbbox(), (0, 0, BADGE_DISPLAY_SIZE, BADGE_DISPLAY_SIZE))
+
     def test_vendored_logos_match_pinned_sources(self):
         manifest = json.loads((ICON_DIR / "manifest.json").read_text(encoding="utf-8"))
         self.assertEqual(set(manifest["sha256"]), set(ICONS))
