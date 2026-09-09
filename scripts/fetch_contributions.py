@@ -5,7 +5,6 @@ Output: assets/contributions.json
 """
 import argparse
 import json
-import os
 import random
 import re
 import sys
@@ -73,14 +72,14 @@ def demo_days():
 def main():
     cfg = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))
     ap = argparse.ArgumentParser()
-    ap.add_argument("--user", default=os.environ.get("GH_USER") or cfg["username"])
+    ap.add_argument("--user", default=cfg["username"])
     ap.add_argument("--demo", action="store_true", help="use sample data instead of scraping")
     args = ap.parse_args()
 
     user = args.user
     days = []
 
-    if args.demo or user == "YOUR_GITHUB_USERNAME":
+    if args.demo:
         print("[i] demo mode - using sample data")
         days = demo_days()
     else:
@@ -92,12 +91,17 @@ def main():
             print("[!] fetch failed (%s)" % e, file=sys.stderr)
 
         if not days:
-            print("[!] empty calendar - falling back to sample data", file=sys.stderr)
-            days = demo_days()
+            cached_path = ROOT / "assets" / "contributions.json"
+            cached = json.loads(cached_path.read_text(encoding="utf-8")) if cached_path.exists() else {}
+            if (cached.get("username", "").casefold() == user.casefold()
+                    and cached.get("days") and cached.get("source") != "demo"):
+                print("[!] keeping the same owner's last successful calendar", file=sys.stderr)
+                return
+            raise SystemExit("[x] No calendar for this owner; retry the build (sample data requires --demo)")
 
     out = ROOT / "assets" / "contributions.json"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps({"username": user, "days": days}, indent=1), encoding="utf-8")
+    out.write_text(json.dumps({"username": user, "source": "demo" if args.demo else "github", "days": days}, indent=1), encoding="utf-8")
     total = sum(d["count"] for d in days)
     print("[ok] %d days, %d contributions -> %s" % (len(days), total, out))
 

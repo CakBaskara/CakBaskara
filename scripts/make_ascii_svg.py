@@ -11,6 +11,7 @@ import argparse
 import hashlib
 import json
 import os
+from io import BytesIO
 from pathlib import Path
 
 import numpy as np
@@ -104,7 +105,9 @@ def main():
     t = cfg["theme"]
 
     ap = argparse.ArgumentParser()
-    ap.add_argument("--photo", help="path to a jpg/png")
+    source = ap.add_mutually_exclusive_group()
+    source.add_argument("--photo", help="path to a jpg/png")
+    source.add_argument("--github-avatar", action="store_true", help="use the configured owner's public GitHub avatar")
     ap.add_argument("--gamma", type=float, default=1.0,
                     help="<1 cleans the background, >1 strengthens the face")
     ap.add_argument("--invert", action="store_true", help="for dark backgrounds")
@@ -116,7 +119,17 @@ def main():
     ap.add_argument("--preview", action="store_true", help="print the ASCII to the terminal")
     args = ap.parse_args()
 
-    if args.photo:
+    if args.github_avatar:
+        import requests
+
+        response = requests.get(
+            "https://github.com/" + cfg["username"] + ".png?size=420", timeout=20,
+        )
+        response.raise_for_status()
+        img = Image.open(BytesIO(response.content)).convert("RGBA")
+        bg = Image.new("RGBA", img.size, (255, 255, 255, 255))
+        img = Image.alpha_composite(bg, img).convert("RGB")
+    elif args.photo:
         img = Image.open(args.photo)
         if img.mode == "RGBA":                      # flatten transparency onto white
             bg = Image.new("RGBA", img.size, (255, 255, 255, 255))

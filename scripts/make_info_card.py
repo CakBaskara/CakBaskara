@@ -32,7 +32,7 @@ def icon_markup(slug, x, y):
         '<rect x="%d" y="%d" width="%d" height="%d" rx="7" fill="%s"/>'
         % (esc(icon["title"]), x, y, ICON_SIZE, ICON_SIZE, icon["bg"])
     )
-    if "path" in icon and "mark" not in icon:
+    if "path" in icon:
         content = (
             '<path d="%s" fill="%s" transform="translate(%d %d) scale(.75)"/>'
             % (icon["path"], icon["fg"], x + 5, y + 5)

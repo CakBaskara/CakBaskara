@@ -1,5 +1,8 @@
 {
+  "auto_owner": true,
   "username": "CakBaskara",
+  "portrait_owner": "CakBaskara",
+  "profile_title": "Cak Baskara Profile",
   "name": "call me BasBass",
   "handle": "cakbaskara@github",
   "show_prompt": false,

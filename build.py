@@ -1,12 +1,14 @@
 """Rebuild every SVG asset in one go.
 
-  python build.py                   # uses the username from config.json
+  python build.py                   # adapts to the repository owner
   python build.py --photo me.jpg    # also regenerate the portrait from a photo
 """
 import argparse
 import subprocess
 import sys
 from pathlib import Path
+
+from scripts.prepare_profile import prepare_profile, save_config
 
 ROOT = Path(__file__).resolve().parent
 
@@ -23,13 +25,24 @@ def main():
     ap.add_argument("--photo")
     ap.add_argument("--demo", action="store_true")
     ap.add_argument("--skip-portrait", action="store_true")
+    ap.add_argument("--refresh-portrait", action="store_true", help="regenerate from the owner's GitHub avatar")
     args, rest = ap.parse_known_args()
 
+    if args.skip_portrait and (args.photo or args.refresh_portrait or rest):
+        ap.error("--skip-portrait cannot be combined with portrait options")
+    cfg = prepare_profile()
     run("fetch_contributions.py", *(["--demo"] if args.demo else []))
     run("render_heatmap_svg.py")
     run("make_info_card.py")
-    if not args.skip_portrait:
-        run("make_ascii_svg.py", *(["--photo", args.photo] if args.photo else []), *rest)
+    portrait_missing = not (ROOT / "assets" / "portrait-ascii.svg").exists()
+    owner_changed = cfg.get("portrait_owner", "").casefold() != cfg["username"].casefold()
+    # A copied portrait must be replaced even when --skip-portrait is requested.
+    if portrait_missing or owner_changed or args.photo or args.refresh_portrait or rest:
+        source = ["--photo", args.photo] if args.photo else ([] if args.demo else ["--github-avatar"])
+        run("make_ascii_svg.py", *source, *rest)
+        cfg["portrait_owner"] = cfg["username"]
+        save_config(cfg)
+    run("refresh_readme.py")
     print("\n[done] see the assets/ folder")
 
 

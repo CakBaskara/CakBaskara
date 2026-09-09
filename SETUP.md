@@ -5,11 +5,45 @@ all inline CSS from READMEs, but it still renders SVGs embedded via `<img>`,
 animations included (CSS keyframes + SMIL). So there are no third-party badge
 services here — everything is generated inside this repo.
 
-## 1. Fill in config.json
+## 1. Reuse for your GitHub account
+
+Create a public repository from this template named **exactly like your GitHub
+username**, or fork/copy it into that repository. Open **Actions → update profile
+art → Run workflow** to initialize it immediately. GitHub disables workflows in
+forks by default, so enable Actions first when using a fork. A push to the default
+branch also builds the profile; the workflow does not assume the branch is `main`.
+
+With `auto_owner: true` (the default), `python build.py` detects the owner from
+`GITHUB_REPOSITORY_OWNER` in Actions, then `GH_USER` for a local override, then the
+GitHub `origin` remote, then `config.json`. It never uses the account that clicked
+Run workflow. No personal access token or per-owner code changes are needed.
+
+On the first build for a different owner, the public GitHub name, location, bio,
+contact link, avatar and contribution calendar replace the previous owner's
+content. The README heading changes too. The theme stays the same, but inherited
+toolbox skills are cleared: add your own in `config.json`. Later builds preserve
+your customized text, toolbox and portrait. Profile fields are imported once,
+when ownership changes, rather than overwriting your edits every day.
+
+The new avatar replaces the inherited portrait even with `--skip-portrait`.
+Public profile/avatar fetch failures fail the build so it can be retried. A
+calendar fetch failure can keep a previous calendar only for the same owner;
+sample contributions are generated only with explicit `--demo`.
+
+For a fixed profile hosted under someone else's repository, set `auto_owner` to
+`false` and fill in `username` manually. When cloning locally, point `origin` at
+your own GitHub repository before building.
+
+GitHub setup reference: [enabling workflows on a fork](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflows-in-forked-repositories).
+
+## 2. Customize config.json
 
 ```json
 {
+  "auto_owner": true,             // follow the repository owner
   "username": "yourname",        // used to scrape the contribution calendar
+  "portrait_owner": "yourname",  // updated after rendering the portrait
+  "profile_title": "Your Name Profile",
   "name": "Your Name",
   "handle": "you@github",        // name used in the fake shell prompt
   "show_prompt": false,          // draw those prompt lines at all
@@ -25,16 +59,18 @@ each of the three cards plus the blinking cursor at the bottom of the info
 card. Set it to `true` and they all come back; the cards reflow to make room,
 so nothing overlaps either way.
 
-Note that the `<h3>` heading in `README.md` is a separate, hand-written line —
-change or delete it there if you want the prompt styling gone everywhere.
+The `<h3>` heading between the `profile-title` markers in `README.md` is generated
+from `profile_title`; edit that config field to change it. Other README content
+is preserved.
 
-## 2. Generate
+## 3. Generate
 
 ```bash
 pip install -r requirements.txt
 
-python build.py                     # everything, portrait falls back to a placeholder
+python build.py                     # adapt owner, refresh cards, preserve existing portrait
 python build.py --photo photo.png   # with a real photo
+python build.py --refresh-portrait  # regenerate from your public GitHub avatar
 ```
 
 Individual scripts if you want to run one at a time:
@@ -45,6 +81,15 @@ Individual scripts if you want to run one at a time:
 | `scripts/render_heatmap_svg.py` | `assets/contrib-heatmap.svg` |
 | `scripts/make_info_card.py` | `assets/info-card.svg` |
 | `scripts/make_ascii_svg.py` | `assets/portrait-ascii.svg` |
+| `scripts/prepare_profile.py` | owner-specific `config.json` (run by `build.py`) |
+| `scripts/refresh_readme.py` | README title and image cache versions (run by `build.py`) |
+
+Use `build.py` for complete owner adaptation. After running an individual renderer,
+run `python scripts/refresh_readme.py` to refresh README image versions. Each SVG
+URL includes a hash of its contents; only changed images receive a new URL. This
+avoids reusing the old image cache without routinely purging GitHub's shared cache.
+
+Verify copied-owner behavior offline with `python -m unittest discover -s tests -v`.
 
 Set `STATIC=1` to render a motionless version, useful for thumbnails:
 
@@ -90,7 +135,7 @@ The first run downloads a ~176 MB model to `~/.u2net/` and caches it. With the
 background gone, the face loses internal contrast, so pair it with a gamma
 around 1.4 — below 1.2 the face goes flat, above 1.6 it turns into a dark blob.
 
-## 3. Put it on your profile repo
+## 4. Put it on your profile repo
 
 Your GitHub profile repo is the one named **exactly like your username**
 (`yourname/yourname`), public, with a `README.md` at the root.
@@ -102,12 +147,12 @@ git remote add origin https://github.com/USERNAME/USERNAME.git
 git push -u origin main
 ```
 
-## 4. Daily auto-refresh
+## 5. Daily auto-refresh
 
 `.github/workflows/update-profile-art.yml` runs every day at 06:17 UTC,
-regenerates the heatmap and info card, and commits only if something changed.
-The ASCII portrait is skipped on purpose — your photo doesn't change daily — so
-commit the output of `make_ascii_svg.py` manually.
+regenerates the heatmap and info card, updates README image versions, and commits
+only if something changed. Owner adaptation and an initial avatar conversion run
+automatically for copies. The existing owner's custom portrait is preserved.
 
 One repo setting to check once: **Settings → Actions → General → Workflow
 permissions → Read and write permissions**, so the bot is allowed to commit.

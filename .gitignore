@@ -1,5 +1,6 @@
 __pycache__/
 *.pyc
+.venv/
 preview.html
 
 # source photos stay local, only the ASCII result is public
