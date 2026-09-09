@@ -153,6 +153,9 @@ git push -u origin main
 regenerates the heatmap and info card, updates README image versions, and commits
 only if something changed. Owner adaptation and an initial avatar conversion run
 automatically for copies. The existing owner's custom portrait is preserved.
+Automated commits use the repository owner as both author and committer, with a
+GitHub noreply email. Commit messages contain only the subject, with no body or
+`Co-authored-by` trailer.
 
 One repo setting to check once: **Settings → Actions → General → Workflow
 permissions → Read and write permissions**, so the bot is allowed to commit.
