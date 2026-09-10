@@ -5,6 +5,7 @@ preview.html
 preview-icons.png
 preview-info-card.png
 preview-portrait.png
+exports/
 
 # source photos stay local, only the ASCII result is public
 photo.png

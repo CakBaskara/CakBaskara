@@ -109,7 +109,7 @@ card. Each badge fades and slides in once, staggered after the description rows;
 The portrait is centered vertically beside the description and toolbox, with
 35% / 65% column proportions. ASCII rows have an explicit SVG text length so
 font fallback cannot shrink the text grid toward one side of the frame.
-The combined `info-card.svg` remains available for standalone images and PNG exports;
+The combined `info-card.svg` remains available as a standalone card;
 one flattened SVG or PNG embedded as an image cannot provide separate icon tooltips.
 
 Run `python scripts/preview_icons.py` after rendering the card to inspect the
@@ -122,6 +122,19 @@ Set `STATIC=1` to render a motionless version, useful for thumbnails:
 ```bash
 STATIC=1 python build.py
 ```
+
+### Export the profile as an HD PNG
+
+After installing `requirements-dev.txt`, run `python scripts/export_profile_png.py`.
+This updates `exports/<username>-profile-HD.png` at 3840 pixels wide, using the
+current `info-summary.svg`, individually sized toolbox SVGs, centered portrait,
+and contribution heatmap. The height adapts to the description and toolbox;
+the old combined `info-card.svg` is not used for this export.
+
+The PNG is a fixed-width static composition, not a browser screenshot or an
+animated/interactive image. All entry animations are resolved to their final frame.
+Use `--width 7680` for a larger export or `--output path.png` to choose another file.
+Run the export again after profile changes; the daily workflow does not regenerate PNGs.
 
 ### Regenerating the portrait
 
