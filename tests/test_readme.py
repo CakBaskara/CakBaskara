@@ -56,7 +56,7 @@ class ReadmeTests(unittest.TestCase):
             self.assertEqual(badge["alt"], ICONS[slug]["title"])
             size = str(BADGE_DISPLAY_SIZE)
             self.assertEqual((badge["width"], badge["height"]), (size, size))
-            self.assertLess(BADGE_DISPLAY_SIZE, 28)
+            self.assertEqual(BADGE_DISPLAY_SIZE, 32)
             self.assertTrue(badge["src"].startswith("assets/toolbox/" + slug + ".svg?v="))
             svg = ET.parse(self.root / "assets" / "toolbox" / (slug + ".svg"))
             self.assertEqual(svg.find('.//{http://www.w3.org/2000/svg}path').get("d"), ICONS[slug]["path"])

@@ -13,7 +13,7 @@ PAD = 26
 LINE = 26
 KEY_W = 108
 ICON_SIZE = 28
-BADGE_DISPLAY_SIZE = 22
+BADGE_DISPLAY_SIZE = 32
 ICON_GAP = 6
 LOGO_SIZE = 20
 CURSOR_TPL = ('  <g class="ln"%s>' + chr(10) +
@@ -133,7 +133,7 @@ def render_info_card(cfg, include_toolbox=True):
 
 
 def render_badge(slug, delay=0.75):
-    # Keep the canonical 28-unit artwork; the README displays it more compactly.
+    # Keep the canonical 28-unit artwork; scale it to the README display size.
     # Animation belongs inside each SVG so GitHub need not allow README CSS.
     animation = "" if STATIC else '''
   <style>

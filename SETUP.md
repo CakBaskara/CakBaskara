@@ -103,7 +103,7 @@ Each toolbox image has its own `title` (native hover tooltip) and `alt` (accessi
 name), such as `Python` or `GitHub Actions`. Tooltips require a hover-capable device;
 touchscreens do not reliably show native title tooltips. This prevents navigation
 on a normal click, but does not prevent saving images or using the browser's context menu.
-README badges display at 22 px, using the same vector geometry as the combined
+README badges display at 32 px, using the same vector geometry as the combined
 card. Each badge fades and slides in once, staggered after the description rows;
 `STATIC=1` and the device's reduced-motion preference disable badge animation.
 The portrait is centered vertically beside the description and toolbox, with
