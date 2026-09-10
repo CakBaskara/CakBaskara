@@ -18,7 +18,9 @@ def picture(root, name, width, alt, title=None):
     source = html.escape("assets/" + name + "?v=" + digest, quote=True)
     attributes = ' src="%s" width="%d" alt="%s"' % (source, width, html.escape(alt, quote=True))
     if title is not None:
-        attributes += ' height="%d" title="%s"' % (width, html.escape(title, quote=True))
+        # Top alignment removes the text-baseline descender space below an icon.
+        # GitHub retains this image attribute while stripping inline CSS.
+        attributes += ' height="%d" align="top" title="%s"' % (width, html.escape(title, quote=True))
     # GitHub auto-links bare <img>, but leaves images within <picture> unlinked.
     return '<picture><img' + attributes + '></picture>'
 
