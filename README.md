@@ -9,7 +9,7 @@
     <td width="65%" valign="middle">
       <picture><img src="assets/info-summary.svg?v=f7b68ecdf32bce7b" width="560" alt="Profile information"></picture><br>
       &emsp;&ensp;<sub><b>Languages</b></sub><br>
-      &emsp;&ensp;<picture><img src="assets/toolbox/python.svg?v=9790c56767ac7c80" width="34" alt="Python" height="34" align="top" title="Python"></picture> <picture><img src="assets/toolbox/c.svg?v=8c82825ce58f74db" width="34" alt="C" height="34" align="top" title="C"></picture> <picture><img src="assets/toolbox/cplusplus.svg?v=aed5628e5f9ae189" width="34" alt="C++" height="34" align="top" title="C++"></picture> <picture><img src="assets/toolbox/typescript.svg?v=cffa82b7db52973c" width="34" alt="TypeScript" height="34" align="top" title="TypeScript"></picture> <picture><img src="assets/toolbox/javascript.svg?v=db6b83227134f98a" width="34" alt="JavaScript" height="34" align="top" title="JavaScript"></picture><br>
+      &emsp;&ensp;<picture><img src="assets/toolbox/python.svg?v=9790c56767ac7c80" width="34" alt="Python" height="34" align="top" title="Python"></picture> <picture><img src="assets/toolbox/c.svg?v=8c82825ce58f74db" width="34" alt="C" height="34" align="top" title="C"></picture> <picture><img src="assets/toolbox/cplusplus.svg?v=aed5628e5f9ae189" width="34" alt="C++" height="34" align="top" title="C++"></picture> <picture><img src="assets/toolbox/typescript.svg?v=cffa82b7db52973c" width="34" alt="TypeScript" height="34" align="top" title="TypeScript"></picture> <picture><img src="assets/toolbox/javascript.svg?v=db6b83227134f98a" width="34" alt="JavaScript" height="34" align="top" title="JavaScript"></picture> <picture><img src="assets/toolbox/html5.svg?v=b92c32622ed9d896" width="34" alt="HTML5" height="34" align="top" title="HTML5"></picture> <picture><img src="assets/toolbox/css.svg?v=4e0a32fbbc13bdaf" width="34" alt="CSS" height="34" align="top" title="CSS"></picture><br>
       &emsp;&ensp;<sub><b>Frameworks</b></sub><br>
       &emsp;&ensp;<picture><img src="assets/toolbox/nextdotjs.svg?v=49976d4d9a697eb0" width="34" alt="Next.js" height="34" align="top" title="Next.js"></picture> <picture><img src="assets/toolbox/react.svg?v=59616d2470761bea" width="34" alt="React" height="34" align="top" title="React"></picture><br>
       &emsp;&ensp;<sub><b>Data</b></sub><br>
@@ -21,6 +21,6 @@
 </table>
 
 <p align="center">
-  <picture><img src="assets/contrib-heatmap.svg?v=90c7592a693bcd3a" width="860" alt="Contribution heatmap"></picture>
+  <picture><img src="assets/contrib-heatmap.svg?v=07aaa284980f3dab" width="860" alt="Contribution heatmap"></picture>
 </p>
 <!-- profile-body:end -->
