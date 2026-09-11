@@ -7,9 +7,9 @@ import subprocess
 from pathlib import Path
 
 try:
-    from .github_http import get as github_get
+    from .github_http import api_headers, get as github_get
 except ImportError:  # direct execution: python scripts/prepare_profile.py
-    from github_http import get as github_get
+    from github_http import api_headers, get as github_get
 
 ROOT = Path(__file__).resolve().parent.parent
 USERNAME = re.compile(r"[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?")
@@ -47,12 +47,8 @@ def resolve_owner(cfg, root=ROOT, environ=None):
 
 
 def fetch_profile(owner):
-    headers = {"Accept": "application/vnd.github+json", "User-Agent": "profile-art-bot"}
-    token = os.environ.get("GITHUB_TOKEN")
-    if token:
-        headers["Authorization"] = "Bearer " + token
     response = github_get(
-        "https://api.github.com/users/" + owner, headers=headers, timeout=20,
+        "https://api.github.com/users/" + owner, headers=api_headers(), timeout=20,
     )
     profile = response.json()
     if profile.get("login", "").casefold() != owner.casefold():
@@ -81,6 +77,9 @@ def adapt_config(cfg, owner, profile):
     info.extend([["Contact", contact]] if len(contact) <= 43 else
                 [["Contact", "github.com/"], ["", owner]])
     adapted["info"] = info
+    if isinstance(adapted.get("skill_audit"), dict):
+        # Repository exclusions name the previous owner's repositories.
+        adapted["skill_audit"] = dict(adapted["skill_audit"], exclude_repos=[])
     # portrait_owner deliberately stays unchanged until the new SVG is rendered.
     return adapted
 

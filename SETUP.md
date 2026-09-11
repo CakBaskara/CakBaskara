@@ -56,10 +56,46 @@ GitHub setup reference: [enabling workflows on a fork](https://docs.github.com/e
 }
 ```
 
-Supported toolbox slugs are `python`, `c`, `cplusplus`, `typescript`,
-`javascript`, `nextdotjs`, `react`, `numpy`, `pandas`, `postgresql`, `git`,
-`githubactions`, `docker`, `n8n`, and `gnubash`. Unknown slugs fail the build instead of drawing a
-misleading fallback icon.
+The supported toolbox slugs are the keys of
+[`scripts/icons/catalog.json`](scripts/icons/catalog.json): 96 languages,
+frameworks, data and tooling logos such as `python`, `go`, `rust`, `react`,
+`django`, `postgresql`, `pytorch`, `docker` and `terraform`. Unknown slugs fail
+the build instead of drawing a misleading fallback icon.
+
+### Automatic skill audit
+
+Every build (including the daily workflow) scans the owner's public repositories
+and appends newly detected skills to `toolbox`. Additions only:
+
+- Skills already listed are never moved or removed; your manual order stays.
+- A skill that has appeared in the toolbox once is remembered in
+  `assets/skills-audit.json`. Delete it from `config.json` and it stays deleted.
+  Add it back by hand to show it again.
+- Forks, empty repositories and the profile repository itself are ignored.
+  Private repositories are not visible to the workflow token.
+
+A skill is detected from the repository's GitHub language statistics, its
+`package.json` / Python dependency files (`requirements*.txt`, `pyproject.toml`,
+`Pipfile`, `environment.yml`), and marker files such as `Dockerfile`,
+`.github/workflows/*.yml` or `next.config.*`. The rules live next to each icon's
+colors in `catalog.json`. Each repository is re-scanned only after a new push,
+or when those rules change.
+
+```json
+"skill_audit": {
+  "enabled": true,             // false keeps the toolbox fully manual
+  "min_repos": 1,              // repositories needed before a skill is added
+  "min_language_share": 0.05,  // a language must be 5% of a repository's code
+  "max_per_group": 14,         // auto-additions stop when a group is this long
+  "exclude_repos": []          // repository names to skip, e.g. ["old-homework"]
+}
+```
+
+New skills go into the group matching their catalog category (`Languages`,
+`Frameworks`, `Data`, `Tools`); a missing group is created. Preview locally with
+`python scripts/audit_skills.py --dry-run`, or build without it using
+`python build.py --skip-audit`. Unauthenticated local runs are limited to 60
+GitHub API requests per hour; set `GITHUB_TOKEN` for more.
 
 ### The fake shell prompts
 
@@ -95,6 +131,7 @@ Individual scripts if you want to run one at a time:
 | `scripts/make_info_card.py` | `assets/info-card.svg`, `assets/info-summary.svg`, `assets/toolbox/*.svg` |
 | `scripts/make_ascii_svg.py` | `assets/portrait-ascii.svg` |
 | `scripts/prepare_profile.py` | owner-specific `config.json` (run by `build.py`) |
+| `scripts/audit_skills.py` | new `toolbox` skills in `config.json`, `assets/skills-audit.json` (run by `build.py`) |
 | `scripts/refresh_readme.py` | README title, non-linked pictures, icon tooltips, and cache versions (run by `build.py`) |
 
 Use `build.py` for complete owner adaptation. After running an individual renderer,
@@ -204,8 +241,8 @@ git push -u origin main
 ## 5. Daily auto-refresh
 
 `.github/workflows/update-profile-art.yml` runs every day at 06:17 UTC,
-regenerates the heatmap and info card, updates README image versions, and commits
-only if something changed. Owner adaptation and an initial avatar conversion run
+audits public repositories for new toolbox skills, regenerates the heatmap and
+info card, updates README image versions, and commits only if something changed. Owner adaptation and an initial avatar conversion run
 automatically for copies. The existing owner's custom portrait is preserved.
 Automated commits use the repository owner as both author and committer, with a
 GitHub noreply email. Commit messages contain only the subject, with no body or
