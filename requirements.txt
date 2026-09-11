@@ -1,7 +1,7 @@
 requests==2.34.2
 beautifulsoup4==4.15.0
 pillow==12.3.0
-numpy==2.4.6
+numpy==2.5.3
 
 # optional, only needed for --nobg on the portrait
 # rembg
