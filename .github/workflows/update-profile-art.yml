@@ -16,17 +16,29 @@ on:
       - "assets/*.svg"
       - "assets/toolbox/*.svg"
       - ".github/workflows/update-profile-art.yml"
+  pull_request:
+    paths:
+      - "build.py"
+      - "config.json"
+      - "scripts/**"
+      - "tests/**"
+      - "requirements.txt"
+      - "requirements-dev.txt"
+      - "README.md"
+      - "assets/*.svg"
+      - "assets/toolbox/*.svg"
+      - ".github/workflows/update-profile-art.yml"
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: profile-art-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  render:
-    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+  verify:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -34,7 +46,26 @@ jobs:
 
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
-          python-version: "3.11"
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements-dev.txt
+
+      - name: Run tests without write access
+        run: python -m unittest discover -s tests -v
+
+  render:
+    if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
           cache: pip
 
       - run: pip install -r requirements-dev.txt

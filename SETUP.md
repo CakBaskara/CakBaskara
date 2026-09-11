@@ -76,7 +76,7 @@ edit `config.json` rather than that HTML. Content outside these markers is prese
 
 ## 3. Generate
 
-Use Python 3.11 or newer.
+Use Python 3.12 or newer.
 
 ```bash
 pip install -r requirements.txt
