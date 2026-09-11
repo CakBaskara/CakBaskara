@@ -18,6 +18,11 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw, ImageOps
 
+try:
+    from .github_http import get as github_get
+except ImportError:  # direct execution: python scripts/make_ascii_svg.py
+    from github_http import get as github_get
+
 ROOT = Path(__file__).resolve().parent.parent
 STATIC = os.environ.get("STATIC") == "1"
 
@@ -165,12 +170,10 @@ def main():
         return
 
     if args.github_avatar:
-        import requests
-
-        response = requests.get(
-            "https://github.com/" + cfg["username"] + ".png?size=420", timeout=20,
+        response = github_get(
+            "https://github.com/" + cfg["username"] + ".png?size=420",
+            headers={"User-Agent": "profile-art-bot"}, timeout=20,
         )
-        response.raise_for_status()
         img = Image.open(BytesIO(response.content)).convert("RGBA")
         bg = Image.new("RGBA", img.size, (255, 255, 255, 255))
         img = Image.alpha_composite(bg, img).convert("RGB")

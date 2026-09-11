@@ -2,6 +2,8 @@
   "repository": "https://github.com/simple-icons/simple-icons",
   "revision": "777807a262bb7384ff406fd4b35fdcd02e9514c3",
   "sha256": {
+    "c": "74edab734d511a20f199f8d3a0bc3f6d9d5dad1af7a2f31ffe5e3d88526e49b3",
+    "cplusplus": "1bf964a79684230115bdb9991cdab9adb5c41fb7af4a0791fc084fa9d47c3bda",
     "docker": "12c23b2939ddfb640dac0d205abc57766052941e227441693cdd1e06ef06aa81",
     "git": "8ebc7b2a605f5ae7f80e89196a544534e9f790bec78deabfd654cf2ca0a087b9",
     "githubactions": "3928ad875220b39a694c4a2ade9f07255b37f9bb89804c91d925754c6b24567b",

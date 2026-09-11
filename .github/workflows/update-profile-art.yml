@@ -30,14 +30,20 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.11"
           cache: pip
 
       - run: pip install -r requirements-dev.txt
+
+      - name: Stagger scheduled refreshes
+        if: github.event_name == 'schedule'
+        env:
+          PROFILE_REPOSITORY: ${{ github.repository }}
+        run: python -c "import hashlib, os, time; delay = int(hashlib.sha256(os.environ['PROFILE_REPOSITORY'].encode()).hexdigest()[:8], 16) % 91; print(f'Waiting {delay}s to spread template traffic'); time.sleep(delay)"
 
       - name: Verify profile adaptation
         run: python -m unittest discover -s tests -v
@@ -48,7 +54,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: python build.py --skip-portrait
 
-      - uses: stefanzweifel/git-auto-commit-action@v5
+      - uses: stefanzweifel/git-auto-commit-action@4a55954c782fc1ea30b9056cd3e7a2b40ca8887d # v7.2.0
         with:
           commit_message: "chore: refresh profile art [skip ci]"
           commit_user_name: ${{ github.repository_owner }}

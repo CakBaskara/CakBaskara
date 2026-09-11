@@ -6,7 +6,10 @@ import re
 import subprocess
 from pathlib import Path
 
-import requests
+try:
+    from .github_http import get as github_get
+except ImportError:  # direct execution: python scripts/prepare_profile.py
+    from github_http import get as github_get
 
 ROOT = Path(__file__).resolve().parent.parent
 USERNAME = re.compile(r"[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?")
@@ -48,10 +51,9 @@ def fetch_profile(owner):
     token = os.environ.get("GITHUB_TOKEN")
     if token:
         headers["Authorization"] = "Bearer " + token
-    response = requests.get(
+    response = github_get(
         "https://api.github.com/users/" + owner, headers=headers, timeout=20,
     )
-    response.raise_for_status()
     profile = response.json()
     if profile.get("login", "").casefold() != owner.casefold():
         raise ValueError("GitHub returned a different profile owner")

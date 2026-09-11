@@ -48,9 +48,18 @@ GitHub setup reference: [enabling workflows on a fork](https://docs.github.com/e
   "handle": "you@github",        // name used in the fake shell prompt
   "show_prompt": false,          // draw those prompt lines at all
   "info": [["Now", "..."], ...], // neofetch card rows, add or remove freely
+  "toolbox": [
+    {"label": "Languages", "items": ["python", "typescript"]},
+    {"label": "Tools", "items": ["git", "githubactions", "docker"]}
+  ],
   "theme": { ... }               // colors
 }
 ```
+
+Supported toolbox slugs are `python`, `c`, `cplusplus`, `typescript`,
+`javascript`, `nextdotjs`, `react`, `numpy`, `pandas`, `postgresql`, `git`,
+`githubactions`, `docker`, `n8n`, and `gnubash`. Unknown slugs fail the build instead of drawing a
+misleading fallback icon.
 
 ### The fake shell prompts
 
@@ -66,6 +75,8 @@ The cards and toolbox between the `profile-body` markers are generated too;
 edit `config.json` rather than that HTML. Content outside these markers is preserved.
 
 ## 3. Generate
+
+Use Python 3.11 or newer.
 
 ```bash
 pip install -r requirements.txt
@@ -200,8 +211,17 @@ Automated commits use the repository owner as both author and committer, with a
 GitHub noreply email. Commit messages contain only the subject, with no body or
 `Co-authored-by` trailer.
 
-One repo setting to check once: **Settings → Actions → General → Workflow
-permissions → Read and write permissions**, so the bot is allowed to commit.
+The workflow grants only `contents: write` to its `GITHUB_TOKEN`; personal
+repositories need no broader default permission. An organization policy can
+still forbid write tokens, in which case an organization administrator must
+allow this workflow to commit generated assets.
+
+Scheduled copies wait for a short repository-specific delay before fetching,
+and temporary GitHub or rate-limit responses are retried with bounded backoff.
+
+Template copies start independent histories. Dependabot keeps Python packages
+and workflow Actions current, but rendering-script improvements are not copied
+automatically. Review newer template commits before updating an existing copy.
 
 ## Notes on the README
 

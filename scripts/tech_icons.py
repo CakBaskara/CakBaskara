@@ -6,6 +6,8 @@ ICON_DIR = Path(__file__).resolve().parent / "icons"
 SVG_NS = "{http://www.w3.org/2000/svg}"
 STYLES = {
     "python": ("#3776AB", "#FFD343"),
+    "c": ("#A8B9CC", "#111111"),
+    "cplusplus": ("#00599C", "#ffffff"),
     "typescript": ("#3178C6", "#ffffff"),
     "javascript": ("#F7DF1E", "#111111"),
     "nextdotjs": ("#000000", "#ffffff"),

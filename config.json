@@ -31,7 +31,7 @@
   "toolbox": [
     {
       "label": "Languages",
-      "items": ["python", "typescript", "javascript"]
+      "items": ["python", "c", "cplusplus", "typescript", "javascript"]
     },
     {
       "label": "Frameworks",

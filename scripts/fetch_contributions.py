@@ -11,8 +11,12 @@ import sys
 from datetime import date, timedelta
 from pathlib import Path
 
-import requests
 from bs4 import BeautifulSoup
+
+try:
+    from .github_http import get as github_get
+except ImportError:  # direct execution: python scripts/fetch_contributions.py
+    from github_http import get as github_get
 
 ROOT = Path(__file__).resolve().parent.parent
 URL = "https://github.com/users/{user}/contributions"
@@ -84,8 +88,7 @@ def main():
         days = demo_days()
     else:
         try:
-            r = requests.get(URL.format(user=user), headers=HEADERS, timeout=20)
-            r.raise_for_status()
+            r = github_get(URL.format(user=user), headers=HEADERS, timeout=20)
             days = parse_html(r.text)
         except Exception as e:  # noqa: BLE001
             print("[!] fetch failed (%s)" % e, file=sys.stderr)

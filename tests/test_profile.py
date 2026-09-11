@@ -160,10 +160,13 @@ class ProfileTests(unittest.TestCase):
             (root / "assets").mkdir()
             (root / "config.json").write_text(json.dumps(self.cfg), encoding="utf-8")
             with patch.object(make_ascii_svg, "ROOT", root), patch.object(sys, "argv", ["portrait", "--github-avatar"]), patch(
-                "requests.get", return_value=Mock(content=avatar.getvalue()),
+                "make_ascii_svg.github_get", return_value=Mock(content=avatar.getvalue()),
             ) as get:
                 make_ascii_svg.main()
-            get.assert_called_once_with("https://github.com/original-owner.png?size=420", timeout=20)
+            get.assert_called_once_with(
+                "https://github.com/original-owner.png?size=420",
+                headers={"User-Agent": "profile-art-bot"}, timeout=20,
+            )
             ET.parse(root / "assets" / "portrait-ascii.svg")
 
     def test_failed_fetch_cannot_reuse_another_owner_or_demo_calendar(self):
@@ -173,7 +176,7 @@ class ProfileTests(unittest.TestCase):
             (root / "config.json").write_text(json.dumps(self.cfg), encoding="utf-8")
             cache_path = root / "assets" / "contributions.json"
             with patch.object(fetch_contributions, "ROOT", root), patch.object(sys, "argv", ["fetch"]), patch(
-                "fetch_contributions.requests.get", side_effect=requests.RequestException("offline"),
+                "fetch_contributions.github_get", side_effect=requests.RequestException("offline"),
             ):
                 for owner, source in (("someone-else", "github"), ("original-owner", "demo")):
                     cache_path.write_text(json.dumps({"username": owner, "source": source, "days": [{"count": 1}]}))

@@ -1,6 +1,6 @@
 # Toolbox icon sources
 
-All 13 SVGs are unmodified Simple Icons source files pinned to commit
+All 15 SVGs are unmodified Simple Icons source files pinned to commit
 `777807a262bb7384ff406fd4b35fdcd02e9514c3`:
 https://github.com/simple-icons/simple-icons/tree/777807a262bb7384ff406fd4b35fdcd02e9514c3/icons
 
