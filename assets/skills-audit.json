@@ -1,0 +1,35 @@
+{
+  "owner": "CakBaskara",
+  "catalog": "ced2386fcc513d34",
+  "known": [
+    "c",
+    "cplusplus",
+    "css",
+    "docker",
+    "git",
+    "githubactions",
+    "gnubash",
+    "html5",
+    "javascript",
+    "n8n",
+    "nextdotjs",
+    "numpy",
+    "pandas",
+    "postgresql",
+    "python",
+    "react",
+    "typescript"
+  ],
+  "repos": {
+    "CodingCamp-3August26-cakbaskara": {
+      "pushed_at": "2026-08-08T04:57:02Z",
+      "skills": [
+        "css",
+        "git",
+        "html5",
+        "javascript"
+      ],
+      "languages_without_icon": []
+    }
+  }
+}
