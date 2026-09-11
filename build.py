@@ -2,12 +2,14 @@
 
   python build.py                   # adapts to the repository owner
   python build.py --photo me.jpg    # also regenerate the portrait from a photo
+  python build.py --skip-audit      # keep the toolbox exactly as configured
 """
 import argparse
 import subprocess
 import sys
 from pathlib import Path
 
+from scripts.audit_skills import audit_skills
 from scripts.prepare_profile import prepare_profile, save_config
 
 ROOT = Path(__file__).resolve().parent
@@ -26,11 +28,14 @@ def main():
     ap.add_argument("--demo", action="store_true")
     ap.add_argument("--skip-portrait", action="store_true")
     ap.add_argument("--refresh-portrait", action="store_true", help="regenerate from the owner's GitHub avatar")
+    ap.add_argument("--skip-audit", action="store_true", help="do not scan repositories for new toolbox skills")
     args, rest = ap.parse_known_args()
 
     if args.skip_portrait and (args.photo or args.refresh_portrait or rest):
         ap.error("--skip-portrait cannot be combined with portrait options")
     cfg = prepare_profile()
+    if not (args.demo or args.skip_audit):
+        cfg = audit_skills(cfg)
     run("fetch_contributions.py", *(["--demo"] if args.demo else []))
     run("render_heatmap_svg.py")
     run("make_info_card.py")

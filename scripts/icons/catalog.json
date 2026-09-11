@@ -1,0 +1,1214 @@
+{
+  "python": {
+    "category": "Languages",
+    "bg": "#3776AB",
+    "fg": "#FFD343",
+    "detect": {
+      "languages": [
+        "Python"
+      ]
+    }
+  },
+  "c": {
+    "category": "Languages",
+    "bg": "#A8B9CC",
+    "fg": "#111111",
+    "detect": {
+      "languages": [
+        "C"
+      ]
+    }
+  },
+  "cplusplus": {
+    "category": "Languages",
+    "bg": "#00599C",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "C++"
+      ]
+    }
+  },
+  "typescript": {
+    "category": "Languages",
+    "bg": "#3178C6",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "TypeScript"
+      ],
+      "npm": [
+        "typescript"
+      ],
+      "files": [
+        "tsconfig.json"
+      ]
+    }
+  },
+  "javascript": {
+    "category": "Languages",
+    "bg": "#F7DF1E",
+    "fg": "#111111",
+    "detect": {
+      "languages": [
+        "JavaScript"
+      ]
+    }
+  },
+  "go": {
+    "category": "Languages",
+    "bg": "#00ADD8",
+    "fg": "#111111",
+    "detect": {
+      "languages": [
+        "Go"
+      ],
+      "files": [
+        "go.mod"
+      ]
+    }
+  },
+  "rust": {
+    "category": "Languages",
+    "bg": "#000000",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "Rust"
+      ],
+      "files": [
+        "Cargo.toml"
+      ]
+    }
+  },
+  "openjdk": {
+    "category": "Languages",
+    "bg": "#000000",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "Java"
+      ]
+    }
+  },
+  "kotlin": {
+    "category": "Languages",
+    "bg": "#7F52FF",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "Kotlin"
+      ]
+    }
+  },
+  "swift": {
+    "category": "Languages",
+    "bg": "#F05138",
+    "fg": "#111111",
+    "detect": {
+      "languages": [
+        "Swift"
+      ]
+    }
+  },
+  "dart": {
+    "category": "Languages",
+    "bg": "#0175C2",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "Dart"
+      ]
+    }
+  },
+  "ruby": {
+    "category": "Languages",
+    "bg": "#CC342D",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "Ruby"
+      ]
+    }
+  },
+  "php": {
+    "category": "Languages",
+    "bg": "#777BB4",
+    "fg": "#111111",
+    "detect": {
+      "languages": [
+        "PHP"
+      ]
+    }
+  },
+  "lua": {
+    "category": "Languages",
+    "bg": "#000080",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "Lua",
+        "Luau"
+      ]
+    }
+  },
+  "r": {
+    "category": "Languages",
+    "bg": "#276DC3",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "R",
+        "RMarkdown"
+      ]
+    }
+  },
+  "julia": {
+    "category": "Languages",
+    "bg": "#9558B2",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "Julia"
+      ]
+    }
+  },
+  "scala": {
+    "category": "Languages",
+    "bg": "#DC322F",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "Scala"
+      ]
+    }
+  },
+  "elixir": {
+    "category": "Languages",
+    "bg": "#4B275F",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "Elixir"
+      ]
+    }
+  },
+  "haskell": {
+    "category": "Languages",
+    "bg": "#5D4F85",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "Haskell"
+      ]
+    }
+  },
+  "zig": {
+    "category": "Languages",
+    "bg": "#F7A41D",
+    "fg": "#111111",
+    "detect": {
+      "languages": [
+        "Zig"
+      ]
+    }
+  },
+  "html5": {
+    "category": "Languages",
+    "bg": "#E34F26",
+    "fg": "#111111",
+    "detect": {
+      "languages": [
+        "HTML"
+      ]
+    }
+  },
+  "css": {
+    "category": "Languages",
+    "bg": "#663399",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "CSS"
+      ]
+    }
+  },
+  "sass": {
+    "category": "Languages",
+    "bg": "#CC6699",
+    "fg": "#111111",
+    "detect": {
+      "languages": [
+        "SCSS",
+        "Sass"
+      ],
+      "npm": [
+        "sass",
+        "node-sass"
+      ]
+    }
+  },
+  "solidity": {
+    "category": "Languages",
+    "bg": "#363636",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "Solidity"
+      ],
+      "files": [
+        "hardhat.config.*",
+        "foundry.toml"
+      ]
+    }
+  },
+  "nextdotjs": {
+    "category": "Frameworks",
+    "bg": "#000000",
+    "fg": "#ffffff",
+    "detect": {
+      "npm": [
+        "next"
+      ],
+      "files": [
+        "next.config.*"
+      ]
+    }
+  },
+  "react": {
+    "category": "Frameworks",
+    "bg": "#20232A",
+    "fg": "#61DAFB",
+    "detect": {
+      "npm": [
+        "react"
+      ]
+    }
+  },
+  "vuedotjs": {
+    "category": "Frameworks",
+    "bg": "#4FC08D",
+    "fg": "#111111",
+    "detect": {
+      "languages": [
+        "Vue"
+      ],
+      "npm": [
+        "vue"
+      ]
+    }
+  },
+  "nuxt": {
+    "category": "Frameworks",
+    "bg": "#00DC82",
+    "fg": "#111111",
+    "detect": {
+      "npm": [
+        "nuxt"
+      ],
+      "files": [
+        "nuxt.config.*"
+      ]
+    }
+  },
+  "angular": {
+    "category": "Frameworks",
+    "bg": "#0F0F11",
+    "fg": "#ffffff",
+    "detect": {
+      "npm": [
+        "@angular/core"
+      ],
+      "files": [
+        "angular.json"
+      ]
+    }
+  },
+  "svelte": {
+    "category": "Frameworks",
+    "bg": "#FF3E00",
+    "fg": "#111111",
+    "detect": {
+      "languages": [
+        "Svelte"
+      ],
+      "npm": [
+        "svelte"
+      ]
+    }
+  },
+  "astro": {
+    "category": "Frameworks",
+    "bg": "#BC52EE",
+    "fg": "#111111",
+    "detect": {
+      "languages": [
+        "Astro"
+      ],
+      "npm": [
+        "astro"
+      ]
+    }
+  },
+  "express": {
+    "category": "Frameworks",
+    "bg": "#0A0A0A",
+    "fg": "#ffffff",
+    "detect": {
+      "npm": [
+        "express"
+      ]
+    }
+  },
+  "nestjs": {
+    "category": "Frameworks",
+    "bg": "#E0234E",
+    "fg": "#ffffff",
+    "detect": {
+      "npm": [
+        "@nestjs/core"
+      ]
+    }
+  },
+  "fastify": {
+    "category": "Frameworks",
+    "bg": "#000000",
+    "fg": "#ffffff",
+    "detect": {
+      "npm": [
+        "fastify"
+      ]
+    }
+  },
+  "django": {
+    "category": "Frameworks",
+    "bg": "#092E20",
+    "fg": "#ffffff",
+    "detect": {
+      "pypi": [
+        "django"
+      ]
+    }
+  },
+  "flask": {
+    "category": "Frameworks",
+    "bg": "#3BABC3",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "flask"
+      ]
+    }
+  },
+  "fastapi": {
+    "category": "Frameworks",
+    "bg": "#009688",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "fastapi"
+      ]
+    }
+  },
+  "streamlit": {
+    "category": "Frameworks",
+    "bg": "#FF4B4B",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "streamlit"
+      ]
+    }
+  },
+  "tailwindcss": {
+    "category": "Frameworks",
+    "bg": "#06B6D4",
+    "fg": "#111111",
+    "detect": {
+      "npm": [
+        "tailwindcss",
+        "@tailwindcss/vite",
+        "@tailwindcss/postcss"
+      ],
+      "files": [
+        "tailwind.config.*"
+      ]
+    }
+  },
+  "bootstrap": {
+    "category": "Frameworks",
+    "bg": "#7952B3",
+    "fg": "#ffffff",
+    "detect": {
+      "npm": [
+        "bootstrap",
+        "react-bootstrap"
+      ]
+    }
+  },
+  "electron": {
+    "category": "Frameworks",
+    "bg": "#47848F",
+    "fg": "#111111",
+    "detect": {
+      "npm": [
+        "electron"
+      ]
+    }
+  },
+  "flutter": {
+    "category": "Frameworks",
+    "bg": "#02569B",
+    "fg": "#ffffff",
+    "detect": {
+      "contains": [
+        {
+          "files": [
+            "pubspec.yaml"
+          ],
+          "pattern": "sdk:\\s*flutter"
+        }
+      ]
+    }
+  },
+  "laravel": {
+    "category": "Frameworks",
+    "bg": "#FF2D20",
+    "fg": "#111111",
+    "detect": {
+      "contains": [
+        {
+          "files": [
+            "composer.json"
+          ],
+          "pattern": "\\\"laravel/framework\\\""
+        }
+      ]
+    }
+  },
+  "rubyonrails": {
+    "category": "Frameworks",
+    "bg": "#D30001",
+    "fg": "#ffffff",
+    "detect": {
+      "contains": [
+        {
+          "files": [
+            "Gemfile"
+          ],
+          "pattern": "gem\\s+[\\\"']rails[\\\"']"
+        }
+      ]
+    }
+  },
+  "spring": {
+    "category": "Frameworks",
+    "bg": "#6DB33F",
+    "fg": "#111111",
+    "detect": {
+      "contains": [
+        {
+          "files": [
+            "pom.xml",
+            "build.gradle",
+            "build.gradle.kts"
+          ],
+          "pattern": "org\\.springframework"
+        }
+      ]
+    }
+  },
+  "dotnet": {
+    "category": "Frameworks",
+    "bg": "#512BD4",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "C#",
+        "F#",
+        "Visual Basic .NET"
+      ],
+      "files": [
+        "*.csproj",
+        "*.fsproj",
+        "*.sln"
+      ]
+    }
+  },
+  "jquery": {
+    "category": "Frameworks",
+    "bg": "#0769AD",
+    "fg": "#ffffff",
+    "detect": {
+      "npm": [
+        "jquery"
+      ]
+    }
+  },
+  "threedotjs": {
+    "category": "Frameworks",
+    "bg": "#000000",
+    "fg": "#ffffff",
+    "detect": {
+      "npm": [
+        "three"
+      ]
+    }
+  },
+  "redux": {
+    "category": "Frameworks",
+    "bg": "#764ABC",
+    "fg": "#ffffff",
+    "detect": {
+      "npm": [
+        "redux",
+        "@reduxjs/toolkit"
+      ]
+    }
+  },
+  "graphql": {
+    "category": "Frameworks",
+    "bg": "#E10098",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "GraphQL"
+      ],
+      "npm": [
+        "graphql"
+      ],
+      "pypi": [
+        "graphene",
+        "strawberry-graphql",
+        "ariadne"
+      ]
+    }
+  },
+  "numpy": {
+    "category": "Data",
+    "bg": "#013243",
+    "fg": "#4DABCF",
+    "detect": {
+      "pypi": [
+        "numpy"
+      ]
+    }
+  },
+  "pandas": {
+    "category": "Data",
+    "bg": "#150458",
+    "fg": "#E70488",
+    "detect": {
+      "pypi": [
+        "pandas"
+      ]
+    }
+  },
+  "postgresql": {
+    "category": "Data",
+    "bg": "#4169E1",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "PLpgSQL"
+      ],
+      "pypi": [
+        "psycopg",
+        "psycopg2",
+        "psycopg2-binary",
+        "asyncpg"
+      ],
+      "npm": [
+        "pg",
+        "postgres"
+      ]
+    }
+  },
+  "mysql": {
+    "category": "Data",
+    "bg": "#4479A1",
+    "fg": "#ffffff",
+    "detect": {
+      "pypi": [
+        "mysqlclient",
+        "pymysql",
+        "mysql-connector-python"
+      ],
+      "npm": [
+        "mysql",
+        "mysql2"
+      ]
+    }
+  },
+  "sqlite": {
+    "category": "Data",
+    "bg": "#003B57",
+    "fg": "#ffffff",
+    "detect": {
+      "pypi": [
+        "aiosqlite",
+        "sqlite-utils"
+      ],
+      "npm": [
+        "sqlite3",
+        "better-sqlite3",
+        "sqlite"
+      ],
+      "files": [
+        "*.sqlite",
+        "*.sqlite3"
+      ]
+    }
+  },
+  "mongodb": {
+    "category": "Data",
+    "bg": "#47A248",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "pymongo",
+        "motor",
+        "mongoengine"
+      ],
+      "npm": [
+        "mongodb",
+        "mongoose"
+      ]
+    }
+  },
+  "redis": {
+    "category": "Data",
+    "bg": "#FF4438",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "redis"
+      ],
+      "npm": [
+        "redis",
+        "ioredis"
+      ]
+    }
+  },
+  "supabase": {
+    "category": "Data",
+    "bg": "#3FCF8E",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "supabase"
+      ],
+      "npm": [
+        "@supabase/supabase-js",
+        "@supabase/ssr"
+      ],
+      "files": [
+        "supabase/config.toml"
+      ]
+    }
+  },
+  "firebase": {
+    "category": "Data",
+    "bg": "#DD2C00",
+    "fg": "#ffffff",
+    "detect": {
+      "pypi": [
+        "firebase-admin"
+      ],
+      "npm": [
+        "firebase",
+        "firebase-admin"
+      ],
+      "files": [
+        "firebase.json"
+      ]
+    }
+  },
+  "prisma": {
+    "category": "Data",
+    "bg": "#2D3748",
+    "fg": "#ffffff",
+    "detect": {
+      "npm": [
+        "prisma",
+        "@prisma/client"
+      ],
+      "files": [
+        "schema.prisma"
+      ]
+    }
+  },
+  "scikitlearn": {
+    "category": "Data",
+    "bg": "#F7931E",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "scikit-learn"
+      ]
+    }
+  },
+  "tensorflow": {
+    "category": "Data",
+    "bg": "#FF6F00",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "tensorflow",
+        "tensorflow-cpu"
+      ],
+      "npm": [
+        "@tensorflow/tfjs"
+      ]
+    }
+  },
+  "pytorch": {
+    "category": "Data",
+    "bg": "#EE4C2C",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "torch",
+        "torchvision",
+        "lightning",
+        "pytorch-lightning"
+      ]
+    }
+  },
+  "keras": {
+    "category": "Data",
+    "bg": "#D00000",
+    "fg": "#ffffff",
+    "detect": {
+      "pypi": [
+        "keras"
+      ]
+    }
+  },
+  "jupyter": {
+    "category": "Data",
+    "bg": "#F37626",
+    "fg": "#111111",
+    "detect": {
+      "languages": [
+        "Jupyter Notebook"
+      ],
+      "pypi": [
+        "jupyter",
+        "jupyterlab",
+        "notebook"
+      ]
+    }
+  },
+  "scipy": {
+    "category": "Data",
+    "bg": "#8CAAE6",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "scipy"
+      ]
+    }
+  },
+  "plotly": {
+    "category": "Data",
+    "bg": "#7A76FF",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "plotly",
+        "dash"
+      ],
+      "npm": [
+        "plotly.js",
+        "plotly.js-dist",
+        "react-plotly.js"
+      ]
+    }
+  },
+  "polars": {
+    "category": "Data",
+    "bg": "#0075FF",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "polars"
+      ]
+    }
+  },
+  "opencv": {
+    "category": "Data",
+    "bg": "#5C3EE8",
+    "fg": "#ffffff",
+    "detect": {
+      "pypi": [
+        "opencv-python",
+        "opencv-python-headless",
+        "opencv-contrib-python"
+      ]
+    }
+  },
+  "apachespark": {
+    "category": "Data",
+    "bg": "#E25A1C",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "pyspark"
+      ]
+    }
+  },
+  "apachekafka": {
+    "category": "Data",
+    "bg": "#231F20",
+    "fg": "#ffffff",
+    "detect": {
+      "pypi": [
+        "kafka-python",
+        "confluent-kafka",
+        "aiokafka"
+      ],
+      "npm": [
+        "kafkajs"
+      ]
+    }
+  },
+  "apacheairflow": {
+    "category": "Data",
+    "bg": "#017CEE",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "apache-airflow"
+      ]
+    }
+  },
+  "duckdb": {
+    "category": "Data",
+    "bg": "#FFF000",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "duckdb"
+      ],
+      "npm": [
+        "duckdb",
+        "@duckdb/duckdb-wasm",
+        "@duckdb/node-api"
+      ]
+    }
+  },
+  "elasticsearch": {
+    "category": "Data",
+    "bg": "#005571",
+    "fg": "#ffffff",
+    "detect": {
+      "pypi": [
+        "elasticsearch"
+      ],
+      "npm": [
+        "@elastic/elasticsearch"
+      ]
+    }
+  },
+  "huggingface": {
+    "category": "Data",
+    "bg": "#FFD21E",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "transformers",
+        "huggingface-hub",
+        "datasets",
+        "diffusers"
+      ],
+      "npm": [
+        "@huggingface/inference",
+        "@huggingface/transformers"
+      ]
+    }
+  },
+  "sqlalchemy": {
+    "category": "Data",
+    "bg": "#D71F00",
+    "fg": "#ffffff",
+    "detect": {
+      "pypi": [
+        "sqlalchemy",
+        "flask-sqlalchemy",
+        "sqlmodel"
+      ]
+    }
+  },
+  "langchain": {
+    "category": "Data",
+    "bg": "#7FC8FF",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "langchain",
+        "langchain-core",
+        "langgraph"
+      ],
+      "npm": [
+        "langchain",
+        "@langchain/core"
+      ]
+    }
+  },
+  "git": {
+    "category": "Tools",
+    "bg": "#F05032",
+    "fg": "#ffffff",
+    "detect": {
+      "files": [
+        ".gitignore",
+        ".gitattributes"
+      ]
+    }
+  },
+  "githubactions": {
+    "category": "Tools",
+    "bg": "#2088FF",
+    "fg": "#ffffff",
+    "detect": {
+      "files": [
+        ".github/workflows/*.yml",
+        ".github/workflows/*.yaml"
+      ]
+    }
+  },
+  "docker": {
+    "category": "Tools",
+    "bg": "#2496ED",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "Dockerfile"
+      ],
+      "files": [
+        "Dockerfile",
+        "Dockerfile.*",
+        "*.dockerfile",
+        "docker-compose.yml",
+        "docker-compose.yaml",
+        "compose.yml",
+        "compose.yaml"
+      ]
+    }
+  },
+  "n8n": {
+    "category": "Tools",
+    "bg": "#EA4B71",
+    "fg": "#ffffff",
+    "detect": {
+      "npm": [
+        "n8n",
+        "n8n-workflow",
+        "n8n-core"
+      ],
+      "contains": [
+        {
+          "files": [
+            "docker-compose.yml",
+            "docker-compose.yaml",
+            "compose.yml",
+            "compose.yaml"
+          ],
+          "pattern": "n8nio/n8n"
+        }
+      ]
+    }
+  },
+  "gnubash": {
+    "category": "Tools",
+    "bg": "#4EAA25",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "Shell"
+      ],
+      "files": [
+        "*.sh",
+        "*.bash"
+      ]
+    }
+  },
+  "nodedotjs": {
+    "category": "Tools",
+    "bg": "#5FA04E",
+    "fg": "#111111",
+    "detect": {
+      "files": [
+        "package.json"
+      ]
+    }
+  },
+  "deno": {
+    "category": "Tools",
+    "bg": "#000000",
+    "fg": "#ffffff",
+    "detect": {
+      "files": [
+        "deno.json",
+        "deno.jsonc"
+      ]
+    }
+  },
+  "bun": {
+    "category": "Tools",
+    "bg": "#000000",
+    "fg": "#ffffff",
+    "detect": {
+      "files": [
+        "bun.lock",
+        "bun.lockb",
+        "bunfig.toml"
+      ]
+    }
+  },
+  "kubernetes": {
+    "category": "Tools",
+    "bg": "#326CE5",
+    "fg": "#ffffff",
+    "detect": {
+      "files": [
+        "kustomization.yaml",
+        "kustomization.yml",
+        "Chart.yaml"
+      ]
+    }
+  },
+  "terraform": {
+    "category": "Tools",
+    "bg": "#844FBA",
+    "fg": "#ffffff",
+    "detect": {
+      "languages": [
+        "HCL"
+      ],
+      "files": [
+        "*.tf"
+      ]
+    }
+  },
+  "nginx": {
+    "category": "Tools",
+    "bg": "#009639",
+    "fg": "#111111",
+    "detect": {
+      "files": [
+        "nginx.conf"
+      ],
+      "contains": [
+        {
+          "files": [
+            "docker-compose.yml",
+            "docker-compose.yaml",
+            "compose.yml",
+            "compose.yaml"
+          ],
+          "pattern": "image:\\s*[\\\"']?nginx"
+        }
+      ]
+    }
+  },
+  "vercel": {
+    "category": "Tools",
+    "bg": "#000000",
+    "fg": "#ffffff",
+    "detect": {
+      "npm": [
+        "vercel",
+        "@vercel/analytics"
+      ],
+      "files": [
+        "vercel.json"
+      ]
+    }
+  },
+  "netlify": {
+    "category": "Tools",
+    "bg": "#00C7B7",
+    "fg": "#111111",
+    "detect": {
+      "files": [
+        "netlify.toml"
+      ]
+    }
+  },
+  "cloudflare": {
+    "category": "Tools",
+    "bg": "#F38020",
+    "fg": "#111111",
+    "detect": {
+      "npm": [
+        "wrangler"
+      ],
+      "files": [
+        "wrangler.toml",
+        "wrangler.json",
+        "wrangler.jsonc"
+      ]
+    }
+  },
+  "vite": {
+    "category": "Tools",
+    "bg": "#9135FF",
+    "fg": "#ffffff",
+    "detect": {
+      "npm": [
+        "vite"
+      ],
+      "files": [
+        "vite.config.*"
+      ]
+    }
+  },
+  "jest": {
+    "category": "Tools",
+    "bg": "#C21325",
+    "fg": "#ffffff",
+    "detect": {
+      "npm": [
+        "jest"
+      ],
+      "files": [
+        "jest.config.*"
+      ]
+    }
+  },
+  "pytest": {
+    "category": "Tools",
+    "bg": "#0A9EDC",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "pytest"
+      ],
+      "files": [
+        "pytest.ini",
+        "conftest.py"
+      ]
+    }
+  },
+  "selenium": {
+    "category": "Tools",
+    "bg": "#43B02A",
+    "fg": "#111111",
+    "detect": {
+      "pypi": [
+        "selenium"
+      ],
+      "npm": [
+        "selenium-webdriver"
+      ]
+    }
+  },
+  "linux": {
+    "category": "Tools",
+    "bg": "#FCC624",
+    "fg": "#111111",
+    "detect": {}
+  }
+}

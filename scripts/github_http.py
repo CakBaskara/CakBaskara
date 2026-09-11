@@ -1,10 +1,20 @@
 """Retry idempotent GitHub GET requests with bounded exponential backoff."""
+import os
 import random
 import time
 
 import requests
 
 RETRYABLE_STATUS = {408, 429, 500, 502, 503, 504}
+
+
+def api_headers(accept="application/vnd.github+json"):
+    """REST API headers, authenticated when GITHUB_TOKEN is available."""
+    headers = {"Accept": accept, "User-Agent": "profile-art-bot"}
+    token = os.environ.get("GITHUB_TOKEN")
+    if token:
+        headers["Authorization"] = "Bearer " + token
+    return headers
 
 
 def _is_retryable(response):

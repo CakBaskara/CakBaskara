@@ -1,26 +1,16 @@
-"""Load unmodified, pinned Simple Icons geometry for the profile toolbox."""
+"""Load unmodified, pinned Simple Icons geometry for the profile toolbox.
+
+`icons/catalog.json` is the single registry: badge colors, the default toolbox
+category, and the repository signals that `audit_skills.py` uses for detection.
+"""
+import json
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
 ICON_DIR = Path(__file__).resolve().parent / "icons"
 SVG_NS = "{http://www.w3.org/2000/svg}"
-STYLES = {
-    "python": ("#3776AB", "#FFD343"),
-    "c": ("#A8B9CC", "#111111"),
-    "cplusplus": ("#00599C", "#ffffff"),
-    "typescript": ("#3178C6", "#ffffff"),
-    "javascript": ("#F7DF1E", "#111111"),
-    "nextdotjs": ("#000000", "#ffffff"),
-    "react": ("#20232A", "#61DAFB"),
-    "numpy": ("#013243", "#4DABCF"),
-    "pandas": ("#150458", "#E70488"),
-    "postgresql": ("#4169E1", "#ffffff"),
-    "git": ("#F05032", "#ffffff"),
-    "githubactions": ("#2088FF", "#ffffff"),
-    "docker": ("#2496ED", "#ffffff"),
-    "n8n": ("#EA4B71", "#ffffff"),
-    "gnubash": ("#4EAA25", "#ffffff"),
-}
+CATEGORIES = ("Languages", "Frameworks", "Data", "Tools")
+CATALOG = json.loads((ICON_DIR / "catalog.json").read_text(encoding="utf-8"))
 
 
 def load_icon(slug, bg, fg):
@@ -36,4 +26,4 @@ def load_icon(slug, bg, fg):
     }
 
 
-ICONS = {slug: load_icon(slug, *colors) for slug, colors in STYLES.items()}
+ICONS = {slug: load_icon(slug, entry["bg"], entry["fg"]) for slug, entry in CATALOG.items()}

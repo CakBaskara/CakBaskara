@@ -46,6 +46,13 @@
       "items": ["git", "githubactions", "docker", "n8n", "gnubash"]
     }
   ],
+  "skill_audit": {
+    "enabled": true,
+    "min_repos": 1,
+    "min_language_share": 0.05,
+    "max_per_group": 14,
+    "exclude_repos": []
+  },
   "theme": {
     "bg": "#0d1117",
     "fg": "#c9d1d9",
