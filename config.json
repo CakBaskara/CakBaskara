@@ -63,7 +63,8 @@
         "githubactions",
         "docker",
         "n8n",
-        "gnubash"
+        "gnubash",
+        "pytest"
       ]
     }
   ],

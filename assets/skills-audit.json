@@ -16,6 +16,7 @@
     "numpy",
     "pandas",
     "postgresql",
+    "pytest",
     "python",
     "react",
     "typescript"
@@ -28,6 +29,15 @@
         "git",
         "html5",
         "javascript"
+      ],
+      "languages_without_icon": []
+    },
+    "ai-router": {
+      "pushed_at": "2026-10-02T07:14:21Z",
+      "skills": [
+        "git",
+        "pytest",
+        "python"
       ],
       "languages_without_icon": []
     }
