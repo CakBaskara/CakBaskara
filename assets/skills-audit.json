@@ -33,9 +33,10 @@
       "languages_without_icon": []
     },
     "ai-router": {
-      "pushed_at": "2026-10-02T07:14:21Z",
+      "pushed_at": "2026-10-02T15:53:57Z",
       "skills": [
         "git",
+        "numpy",
         "pytest",
         "python"
       ],
