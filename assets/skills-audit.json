@@ -41,6 +41,15 @@
         "python"
       ],
       "languages_without_icon": []
+    },
+    "schematic-compare": {
+      "pushed_at": "2026-10-26T08:40:35Z",
+      "skills": [
+        "git",
+        "pytest",
+        "python"
+      ],
+      "languages_without_icon": []
     }
   }
 }
