@@ -21,6 +21,6 @@
 </table>
 
 <p align="center">
-  <picture><img src="assets/contrib-heatmap.svg?v=bec2b77b2e58f643" width="860" alt="Contribution heatmap"></picture>
+  <picture><img src="assets/contrib-heatmap.svg?v=f8d4155a57993cbe" width="860" alt="Contribution heatmap"></picture>
 </p>
 <!-- profile-body:end -->
